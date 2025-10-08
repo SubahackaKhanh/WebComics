@@ -1,0 +1,63 @@
+.grid-items-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  padding: 16px 0;
+}
+
+.grid-items {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 20px 48px;
+  border: 3px solid #99c9f9;
+  border-radius: 40px;
+}
+
+.grid-items::-webkit-scrollbar {
+  display: none;
+}
+
+/* Nút mũi tên */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #cde4fc;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #4a90e2;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+.scroll-btn:hover {
+  background-color: #b1d6fa;
+}
+
+.scroll-btn.left {
+  left: 8px;
+}
+
+.scroll-btn.right {
+  right: 8px;
+}
+
+/* Giới hạn kích thước item để nằm ngang đẹp */
+.grid-items .items-card {
+  flex: 0 0 180px;
+}
+
+.grid-items h1{
+  color:#4a90e2
+}

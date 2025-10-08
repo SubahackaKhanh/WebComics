@@ -1,0 +1,99 @@
+
+.items-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mỗi item-card phải là relative để chứa overlay */
+.items-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.item-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.item-name {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-weight: bold;
+  font-size: normal;
+  background: rgba(0, 0, 0, 0.2);
+  color: #99c9f9;
+  padding-bottom: 5px;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+.item-name:hover {
+  color: #4a90e2;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.item-status.ongoing:hover{
+    background: #72de75;
+}
+
+.item-status.completed:hover{
+    background: #b9b9b9;
+}
+
+.item-status.hot:hover{
+      background: #e91e1e;
+}
+
+.item-status.new:hover{
+    background: #ff7300;
+}
+
+.item-status.ongoing {
+    background: #4caf50;
+    box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 0 10px #4caf50;
+}
+.item-status.completed {
+    background: #8d8d8d;
+    box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 0 10px #8d8d8d;
+}
+.item-status.new {
+  background: #ffb300;
+  box-shadow:
+  0 2px 4px rgba(0, 0, 0, 0.25),
+  0 0 10px #ffb300;
+}
+.item-status.hot {
+  background: #e91e63;
+  box-shadow:
+  0 2px 4px rgba(0, 0, 0, 0.25),
+  0 0 10px #e91e63;
+}
+
+.item-status{
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #4a90e2;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}

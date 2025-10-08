@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/components/icons",
+    "src/components/TheWelcome.vue",
+    "src/components/WelcomeItem.vue"
+  ]
+}

@@ -1,0 +1,120 @@
+.main-footer {
+  background-color: #cde4fc;
+  border: 3px solid #99c9f9;
+  padding: 20px;
+  text-align: center;
+  border-radius: 40px 80px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.footer-section h3 {
+  color: #005fa3;
+  margin-bottom: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section li {
+  margin-bottom: 6px;
+}
+
+.footer-section a, .footer-section button {
+  text-decoration: none;
+  color: #004c8c;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-section a:hover,
+.footer-section button:hover {
+  color: #1a73e8;
+}
+
+/* Overlay Form */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.overlay-content {
+    background: #cde4fc;
+    padding: 20px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.overlay-content h3 {
+  margin-bottom: 10px;
+  color: #69a2fe;
+}
+
+textarea {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
+    border: 2px solid #99c9f9;
+    border-radius: 8px;
+    resize: vertical;
+    background: #cde4fc;
+    color:#69a2fe;
+    box-sizing: border-box;
+}
+
+textarea:hover{
+    border: 2px solid #99c9f9;
+    border-radius: 8px;
+}
+
+textarea:focus{
+    outline: none;
+    border: 2px solid #4a90e2;
+    box-shadow: 0 0 4px rgba(74, 144, 226, 0.5);
+}
+
+textarea::placeholder{
+   color:#69a2fe;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.form-buttons button {
+  background: #99c9f9;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color:#4a90e2;
+}
+
+.form-buttons button:hover {
+  background: #72b4f9;
+}

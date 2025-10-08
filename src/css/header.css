@@ -1,0 +1,140 @@
+header {
+  background-color: #cde4fc;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 57px 25px;
+  border: 3px solid #99c9f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.header-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width:100%;
+}
+
+.logo img {
+  height: 48px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin-left: 50px;
+  padding: 0;
+}
+
+.nav-list li a {
+  text-decoration: none;
+  color: #69a2fe;
+  font-weight: 500;
+  font-size: x-large;
+  padding: 8px 12px;
+  transition: all 0.2s ease, color 0.2s ease;
+  border: 2px solid #cde4fc;
+}
+
+.nav-list li a:hover {
+  color: #1d4ed8;
+  border: 2px solid;
+  border-radius: 30px 12px;
+  text-shadow: 1px 2px 4px rgba(76, 149, 252, 0.8);
+}
+
+/* Hamburger button */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Search wrapper */
+.search-wrapper {
+  margin-left: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    position: relative; /* bắt buộc để absolute hoạt động đối với search */
+  }
+
+  .header-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap; /* KHÔNG cho xuống hàng */
+    width: 100%;
+    gap: 8px;
+  }
+
+  /* logo & menu luôn trên layer trên để không bị che */
+  .logo,
+  .header-menu {
+    z-index: 2;
+    flex: 0 0 auto;
+  }
+
+  /* search ở giữa tuyệt đối — chỉnh width để tránh chồng lên 2 bên */
+  .search-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* chọn width nhỏ hơn màn (hoặc reserve khoảng cho logo+menu): */
+    width: min(64%, calc(100% - 140px));
+    max-width: 420px; /* tùy bạn chỉnh */
+    margin: 0;
+    z-index: 1;
+  } 
+
+  .hamburger {
+    display: block;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4a90e2;
+    z-index: 2;
+  }
+
+  nav { 
+    display: none;
+    position: absolute;
+    top: 100%; /* xuất hiện ngay dưới header */
+    right: 0;
+    background-color: rgba(205, 228, 252, 0.98);
+    border: 2px solid #95c7f9;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 12px 0;
+    backdrop-filter: blur(8px);
+    z-index: 99; /* cao hơn mọi thứ khác */
+    animation: dropdownFade 0.25s ease forwards;
+  }
+
+  nav.open { display: block; }
+
+  .nav-list {
+    display:flex;
+    flex-direction: column;
+    margin-left: 0;
+    gap:20px;
+  }
+
+  .nav-list li a { font-size: large; }
+}

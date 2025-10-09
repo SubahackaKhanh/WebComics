@@ -1,0 +1,5 @@
+<template>
+    <div>
+        NIGGERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+    </div>
+</template>

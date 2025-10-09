@@ -23,5 +23,5 @@
 <script setup>
   import '@/css/searchbar.css'
   import { isSearchOpen, isLargeScreen, toggleSearch, useSearchBar, searchQuery } from '@/js/composables/useOpenSearchIcon'
-  console.log(isSearchOpen);
+  useSearchBar()
 </script>

@@ -1,8 +1,10 @@
 <template>
-  <router-view/>
+  <MainLayout/>
+  <AuthLayout/>
 </template>
 
 <script setup>
-  import './assets/main.css';
+  import AuthLayout from './layouts/AuthLayout.vue';
+  import MainLayout from './layouts/MainLayout.vue';
 </script>
 

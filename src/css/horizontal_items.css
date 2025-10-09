@@ -2,11 +2,13 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   width: 100%;
   padding: 16px 0;
 }
 
+/* Vùng chứa các items */
 .grid-items {
   display: flex;
   gap: 16px;
@@ -16,6 +18,7 @@
   padding: 20px 48px;
   border: 3px solid #99c9f9;
   border-radius: 40px;
+  background-color: #cde4fc;
 }
 
 .grid-items::-webkit-scrollbar {
@@ -41,6 +44,7 @@
   z-index: 5;
 }
 
+
 .scroll-btn:hover {
   background-color: #b1d6fa;
 }
@@ -53,11 +57,71 @@
   right: 8px;
 }
 
-/* Giới hạn kích thước item để nằm ngang đẹp */
+/* Giới hạn kích thước item */
 .grid-items .items-card {
   flex: 0 0 180px;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease;
 }
 
-.grid-items h1{
-  color:#4a90e2
+.grid-items .items-card:hover {
+  transform: translateY(-4px);
+}
+
+.grid-items h1 {
+  color: #4a90e2;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* ============================= */
+/* 📱 Responsive phần quan trọng */
+/* ============================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .grid-items {
+    padding: 16px 32px;
+    gap: 12px;
+  }
+
+  .grid-items .items-card {
+    flex: 0 0 160px;
+  }
+
+  .scroll-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .grid-items {
+    padding: 12px 24px;
+    gap: 10px;
+    border-radius: 25px;
+  }
+
+  .grid-items .items-card {
+    flex: 0 0 140px;
+  }
+
+  .scroll-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    background-color: #d9ecff;
+  }
+
+  /* Ẩn nút mũi tên nếu màn hình quá nhỏ */
+  .scroll-btn.left,
+  .scroll-btn.right {
+    display: none;
+  }
+
+  .grid-items h1 {
+    font-size: 1.2rem;
+  }
 }

@@ -9,4 +9,5 @@
   box-sizing: border-box;
   background-color: #cde4fc;
   margin-bottom: 26px;
+  overflow: hidden;
 }

@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-    import '@/css/list_item.css'
     import itemsCard from '../child/items-card.vue';
 
     const items = [
@@ -24,3 +23,5 @@
         { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing'}
     ]
 </script>
+
+<style scoped src="@/css/list_item.css"></style>

@@ -30,12 +30,15 @@
   align-items: flex-end;
   justify-content: center;
   font-weight: bold;
-  font-size: normal;
+  font-size: medium;
   background: rgba(0, 0, 0, 0.2);
   color: #99c9f9;
   padding-bottom: 5px;
   text-align: center;
   transition: background 0.3s, color 0.3s;
+  text-shadow: 
+  0 2px 4px rgba(0, 0, 0, 0.25),
+  0 0 10px #6a0000;
 }
 
 .item-name:hover {

@@ -21,7 +21,8 @@
 </template>
 
 <script setup>
-  import '@/css/searchbar.css'
   import { isSearchOpen, isLargeScreen, toggleSearch, useSearchBar, searchQuery } from '@/js/composables/useOpenSearchIcon'
   useSearchBar()
 </script>
+
+<style scoped src="@/css/searchbar.css"></style>

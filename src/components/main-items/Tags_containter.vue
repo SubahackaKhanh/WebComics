@@ -23,8 +23,6 @@
 
 <script>
     import tags from '../child/tags.vue';
-    import '@/css/tagscontainer.css';
-
     const props = defineProps({
         genres: Array,
         selectedTags: Array
@@ -44,3 +42,5 @@
         emit('update:selectedTags',[])
     }
 </script>
+
+<style scoped src="@/css/tagscontainer.css"></style>

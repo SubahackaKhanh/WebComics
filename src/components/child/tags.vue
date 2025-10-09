@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-    import '@/css/tag.css'
-
     const props = defineProps({
         name: String,
         active: Boolean
     })
 </script>
+
+<style scoped src="@/css/tag.css"></style>

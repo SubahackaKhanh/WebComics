@@ -13,9 +13,10 @@
 </template>
 
 <script setup>
-import '@/css/itemcard.css'
 
 const props = defineProps({
   item: Object
 })
 </script>
+
+<style scoped src="@/css/itemcard.css"></style>

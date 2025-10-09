@@ -31,8 +31,9 @@
 
 <script setup>
 import SearchBar from '../main-items/SearchBar.vue';
-import '@/css/header.css';
 import { isMenuOpen, toggleMenu } from '@/js/MenuIcon';
 
 defineExpose({ isMenuOpen, toggleMenu })
 </script>
+
+<style scoped src="@/css/header.css"></style>

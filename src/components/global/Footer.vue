@@ -53,7 +53,6 @@
 </template>
 
 <script setup>
-import '@/css/footer.css'
 import { 
   showReport, showSuggest, reportText, suggestText,
   openReportForm, openSuggestForm, closeForms, submitReport, submitSuggest 
@@ -71,3 +70,5 @@ defineExpose({
   submitSuggest
 })
 </script>
+
+<style scoped src="@/css/footer.css"></style>

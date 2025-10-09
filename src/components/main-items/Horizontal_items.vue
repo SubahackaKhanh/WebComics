@@ -18,7 +18,6 @@
 
 <script setup>
 import itemsCard from '../child/items-card.vue'
-import '@/css/horizontal_items.css'
 import { useScroll } from '@/js/composables/use_Scroll_Horizontal_item'
 
 const { scrollContainer, scrollLeft, scrollRight} = useScroll()
@@ -40,3 +39,5 @@ const items = [
   { name: 'Monkey Leveling', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'HOT' }
 ]
 </script>
+
+<style scoped src="@/css/horizontal_items.css"></style>

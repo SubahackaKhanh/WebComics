@@ -2,7 +2,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 export const isSearchOpen = ref(false)
 export const isLargeScreen = ref(window.innerWidth >= 768)
-export const searchQuery = ref('') // 👈 từ khóa người dùng nhập
+export const searchQuery = ref('') 
 
 export function toggleSearch() {
   isSearchOpen.value = !isSearchOpen.value

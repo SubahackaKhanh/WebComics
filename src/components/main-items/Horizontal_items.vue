@@ -17,19 +17,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import itemsCard from '../child/items-card.vue'
 import '@/css/horizontal_items.css'
-import { throttle } from 'lodash'
+import { useScroll } from '@/js/composables/use_Scroll_Horizontal_item'
 
-const scrollContainer = ref(null)
-
-const scrollLeft =throttle (() => {
-  scrollContainer.value.scrollBy({ left: -300, behavior: 'smooth' })
-}, 500)
-const scrollRight =throttle (() => {
-  scrollContainer.value.scrollBy({ left: 300, behavior: 'smooth' })
-}, 500)
+const { scrollContainer, scrollLeft, scrollRight} = useScroll()
 
 const items = [
   { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },

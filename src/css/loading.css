@@ -208,3 +208,7 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.loading-overlay{
+  background-color: #95c7f9;
+}

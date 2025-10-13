@@ -12,4 +12,4 @@
     })
 </script>
 
-<style scoped src="@/css/tag.css"></style>
+<style scoped src="@/css/tags.css"></style>

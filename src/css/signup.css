@@ -111,3 +111,38 @@ input:-webkit-autofill {
   transform: scale(1.03);
   opacity: 0.9;
 }
+
+/* Responsive cho điện thoại */
+@media (max-width: 480px) {
+  .signup-container {
+    padding: 1rem;
+    height: auto; /* tránh cố định 100vh khiến bị tràn */
+  }
+
+  .signup-form {
+    width: 100%;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .signup-form h1 {
+    font-size: 1.5rem;
+  }
+
+  .signup-input {
+    gap: 0.8rem;
+  }
+
+  .user-input,
+  .pass-input {
+    font-size: 0.95rem;
+    padding: 0.7rem;
+  }
+
+  .signup-buttons {
+    flex-direction: column; 
+    gap: 0.8rem;
+  }
+
+}

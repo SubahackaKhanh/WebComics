@@ -1,7 +1,7 @@
 <template>
   <div class="signup-container">
     <div class="signup-form">
-      <h1>SIGNUP</h1>
+      <h1>SignUp</h1>
 
       <div class="signup-input">
         <input class="user-input" placeholder="username" />

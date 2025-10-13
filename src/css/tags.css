@@ -1,0 +1,59 @@
+.tag {
+  background: #e3f2ff;
+  border: 2px solid #95c7f9;
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  transform: scale(1);
+}
+
+.tag:hover {
+  background: #95c7f9;
+  color: white;
+}
+
+.tag.active {
+  background: #1d4ed8;
+  color: white;
+  border-color: #1d4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.4);
+}
+
+.tags-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tags-grid{
+  display: flex;
+  border: 5px solid #95c7f9;
+  border-radius: 10px;
+  padding: 10px;
+  width: 75%;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 5px;
+  overflow: auto;
+}
+
+.clear-btn{
+  background: #99c9f9;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1d4ed8;
+}
+
+.tags-header{
+  color:#1d4ed8;
+  font-size: large;
+  font-weight: bold;
+}

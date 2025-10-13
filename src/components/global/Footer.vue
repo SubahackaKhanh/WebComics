@@ -56,7 +56,7 @@
 import { 
   showReport, showSuggest, reportText, suggestText,
   openReportForm, openSuggestForm, closeForms, submitReport, submitSuggest 
-} from '@/js/footer.js'
+} from '@/js/module/footer.js'
 
 defineExpose({
   showReport,

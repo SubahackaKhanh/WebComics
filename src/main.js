@@ -1,5 +1,4 @@
 import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -12,15 +11,24 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
+const loading = useLoadingStore(pinia)
+
+// Hiện loader khi đổi route
 router.beforeEach((to, from, next) => {
-  const loading = useLoadingStore(pinia)
   if (!to.meta.disableLoading) loading.show()
   next()
 })
 
+// Tắt loader khi component trong router-view đã render xong
 router.afterEach(() => {
-  const loading = useLoadingStore(pinia)
-  setTimeout(() => loading.hide(), 200)
+  requestAnimationFrame(() => {
+    setTimeout(() => loading.hide(), 150)
+  })
+})
+
+// Khi app vừa khởi động xong, tắt loader lần đầu
+router.isReady().then(() => {
+  loading.hide()
 })
 
 app.mount('#app')

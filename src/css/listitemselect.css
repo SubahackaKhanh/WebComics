@@ -1,0 +1,15 @@
+.chapter-item{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: row;
+    gap: 10px;
+    color: #4a90e2;
+    border: 1px solid;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.chapter-list{
+    margin-bottom: 10px;
+}

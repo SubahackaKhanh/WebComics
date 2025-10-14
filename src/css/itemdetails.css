@@ -1,0 +1,11 @@
+.details-container{
+    border: 3px solid #99c9f9;
+    border-radius: 20px;
+    padding: 10px;
+    width: 50%;
+    height: auto;
+    overflow: auto;
+    color: #4a90e2;
+    margin: 10px;
+}
+

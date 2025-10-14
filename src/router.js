@@ -4,10 +4,11 @@ import Home from './components/pages/Home.vue'
 import AuthLayout from './layouts/AuthLayout.vue'
 import SignUp from './components/pages/SignUp.vue'
 import MainLayout from './layouts/MainLayout.vue'
+import Login from './components/pages/Login.vue'
 
 const routes = [
     { path: '/', component: MainLayout, children: [{ path: '', component: Home}, { path:'/genres', component: Genres }]},
-    { path: '/signup', component: AuthLayout, children: [{ path: '', component: SignUp}]},
+    { path: '/signup', component: AuthLayout, children: [{ path: '', component: SignUp}, { path: '/login', component:Login}]},
 ]
 
 const router = createRouter({

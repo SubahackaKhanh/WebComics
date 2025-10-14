@@ -1,5 +1,8 @@
 <template>
     <Header/>
+    <div class="author-row">
+        <AuthorDetails/>
+    </div>
     <div class="main-container">
         <ListItemSelect/>
         <ItemDetails/>
@@ -14,6 +17,7 @@ import Header from '@/components/global/Header.vue';
 import LeaderBoard from '@/components/main-items/LeaderBoard.vue';
 import ItemDetails from '@/components/common/ItemDetails.vue';
 import ListItemSelect from '@/components/main-items/ListItemSelect.vue';
+import AuthorDetails from '@/components/common/AuthorDetails.vue';
 
 </script>
 

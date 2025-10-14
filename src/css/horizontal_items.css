@@ -31,7 +31,7 @@
   top: 50%;
   transform: translateY(-50%);
   background-color: #cde4fc;
-  border: none;
+  border: 2px solid;
   border-radius: 50%;
   width: 40px;
   height: 40px;

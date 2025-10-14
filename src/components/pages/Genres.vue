@@ -1,9 +1,13 @@
 <template>
-  <TagsContainer
-    :genres="tags"
-    v-model:selectedTags="selectedTags"
-  />
-  <List_items/>
+  <div class="genres-container">
+    <TagsContainer
+      :genres="tags"
+      v-model:selectedTags="selectedTags"
+    />
+    <div class="genres-list-items">
+      <List_items/>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -14,3 +18,5 @@ import List_items from '../main-items/List_items.vue'
 
 const selectedTags = ref([])
 </script>
+
+<style scoped src="@/css/genres.css"></style>

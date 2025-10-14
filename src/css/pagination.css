@@ -1,0 +1,23 @@
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+  border: 1px solid #4a90e2;
+  border-radius: 6px;
+  background: #cde4fc;
+  cursor: pointer;
+  transition: background 0.2s;
+  color:#4a90e2
+}
+.page-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+.page-btn[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}

@@ -2,9 +2,9 @@
     <Horizontal_items />
     <div class="list">
         <div class = "list-container">
-            <List_items/>
+            <List_items ref="listComp"/>
         </div>
-        <div class ="leaderboard">
+        <div class ="leaderboard" :style="{ height: leaderboardHeight + 'px' }">
             <LeaderBoard/>
         </div>
     </div>
@@ -15,14 +15,29 @@
     import LeaderBoard from '../main-items/LeaderBoard.vue';
     import List_items from '../main-items/List_items.vue';
     import { useLoadingStore } from '@/js/composables/useLoadingStore'
-    import { onMounted } from 'vue';
+    import { onMounted, ref, nextTick } from 'vue';
     const loading = useLoadingStore()
 
+    const leaderboardHeight = ref(0);
+    const listComp = ref(null);
+    
+    const updateLeaderboardHeight = () => {
+        if(listComp.value){
+            leaderboardHeight.value =listComp.value.listHeight;
+        }
+    };
+
     onMounted(async () => {
-    // Chờ dữ liệu về xong mới tắt loader
-    await new Promise(resolve => setTimeout(resolve, 800)) // fetch API giả
-    loading.hide()
+        await nextTick();
+        updateLeaderboardHeight();
+    });
+
+    onMounted(async () => {
+        await new Promise(resolve => setTimeout(resolve, 800)) // fetch API giả
+        loading.hide()
     })
+
+    window.addEventListener('resize', updateLeaderboardHeight);
 </script>
 
 <style scoped src="@/css/home.css"></style>

@@ -9,7 +9,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-
+ // thu ma api phai tra ve
 const chapters = ref([
   { id: 1, title: 'Chapter 1', date: '2023-08-01' },
   { id: 2, title: 'Chapter 2', date: '2023-08-05' },

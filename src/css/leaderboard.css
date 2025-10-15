@@ -2,13 +2,11 @@
   border: 3px solid #99c9f9;
   border-radius: 25px;
   width: 100%;
-  margin-left: 20px;
-  margin-top: 10px;
   background: #cde4fc;
   overflow: hidden;
   display: flex;
   justify-content: center;
-  height:1207.5px;
+  height:90%;
 }
 
 .leaderboard-form {

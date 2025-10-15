@@ -10,6 +10,7 @@
   background-color: #cde4fc;
   margin-bottom: 26px;
   overflow: hidden;
+  height:80%;
 }
 .list-items-pagination{
   display: flex;
@@ -17,4 +18,13 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 26px;
+}
+
+.list-item-container{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="item-row" v-if="item">
+  <div class="item-row" v-if="item" @click="go()">
     <div class="rank-badge" v-if="rank">
       {{ rank }}
     </div>
@@ -16,10 +16,17 @@
 </template>
 
 <script setup>
+import router from '@/router'
+import { buildItemDetailsPath } from '@/js/utils/itemNavigation'
+
 const props = defineProps({
   item: Object,
   rank: Number 
 })
+
+function go(){
+  router.push(buildItemDetailsPath(props.item))
+}
 </script>
 
 <style scoped src="@/css/itemrow.css"></style>

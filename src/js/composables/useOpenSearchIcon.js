@@ -9,6 +9,10 @@ const registry = ref([
   { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
   { name: 'Naruto', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
   { name: 'Bleach', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
+  { name: 'Ninja GO', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
+  { name: 'Robo Trái cây', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
+  { name: 'Kamen Rider zezt', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
+  { name: 'NÊ Ga man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
 ])
 
 export function toggleSearch() {

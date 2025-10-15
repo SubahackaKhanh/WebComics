@@ -1,5 +1,5 @@
 <template>
-  <div class="search-container" :class="{ open: isSearchOpen }">
+  <div class="search-container" :class="{ open: isSearchOpen }" ref="containerRef">
     <!-- search -->
     <input
       v-if="isSearchOpen || isLargeScreen"
@@ -9,11 +9,16 @@
       name="searchQuery"
       class="search-bar"
       placeholder="Search..."
-      @focus="openDropdown = true"
+      autocomplete="off"
+      autocapitalize="none"
+      spellcheck="false"
+      @focus="open() && setHasResults(!!limited.length)"
       @keydown.down.prevent="move(1)"
       @keydown.up.prevent="move(-1)"
       @keydown.enter.prevent="selectActive()"
+      @keydown.esc.prevent="close()"
       @input="onInput"
+      ref="inputRef"
     />
     <!-- icon -->
     <svg class="search-icon" viewBox="0 0 24 24" @click="toggleSearch">
@@ -23,7 +28,7 @@
     </svg>
 
     <!-- suggestions -->
-    <ul v-if="showList" class="search-suggest">
+    <ul v-if="show" class="search-suggest">
       <li
         v-for="(item, idx) in limited"
         :key="idx"
@@ -41,18 +46,25 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-  import router from '@/router'
+  import { ref, computed } from 'vue'
+  import { useRouter } from 'vue-router'
   import { isSearchOpen, isLargeScreen, toggleSearch, useSearchBar, searchQuery } from '@/js/composables/useOpenSearchIcon'
+  import { useClickOutside } from '@/js/composables/useClickOutside'
+  import { useSuggestList } from '@/js/composables/useSuggestList'
   const { filteredItems } = useSearchBar()
+  const router = useRouter()
 
-  const openDropdown = ref(false)
+  const containerRef = ref(null)
+  const inputRef = ref(null)
+  const { isOpen, show, open, close, setHasResults } = useSuggestList()
+
   const activeIndex = ref(-1)
   const limited = computed(() => filteredItems.value.slice(0, 8))
-  const showList = computed(() => (isSearchOpen || isLargeScreen) && openDropdown && limited.value.length > 0)
 
   function onInput(){
-    openDropdown.value = !!searchQuery.value.trim()
+    const hasText = !!searchQuery.value.trim()
+    if (hasText){ open() } else { close() }
+    setHasResults(limited.value.length > 0)
     activeIndex.value = -1
   }
 
@@ -67,18 +79,13 @@
     if (activeIndex.value >= 0) goTo(limited.value[activeIndex.value])
   }
   function goTo(item){
-    openDropdown.value = false
+    close()
     searchQuery.value = item?.name || ''
+    if (inputRef.value) inputRef.value.blur()
     router.push('/details')
   }
 
-  function handleClickOutside(e){
-    const el = e.target.closest('.search-container')
-    if (!el) openDropdown.value = false
-  }
-
-  onMounted(() => document.addEventListener('click', handleClickOutside))
-  onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
+  useClickOutside(containerRef, () => close())
 </script>
 
 <style scoped src="@/css/searchbar.css"></style>

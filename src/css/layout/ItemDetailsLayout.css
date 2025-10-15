@@ -1,6 +1,98 @@
-.main-container{
-    display: flex;
-    align-items: end;
-    justify-content: end;
-    flex-direction: column-reverse;
+.item-details-layout{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 24px;
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
+
+.hero{
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    align-items: start;
+}
+
+.items-scroller{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(180px, 1fr);
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.author-sidebar{
+    position: sticky;
+    top: 88px;
+    align-self: start;
+}
+
+.content{
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 24px;
+}
+
+/* Theme alignment for details pane */
+.details{
+    background: #cde4fc;
+    border: 3px solid #99c9f9;
+    border-radius: 20px;
+    padding: 16px;
+    color: #2c3e50;
+}
+
+/* Right sidebar stack spacing */
+.sidebar{
+    display: grid;
+    gap: 16px;
+    position: sticky;
+    top: 88px;
+    align-self: start;
+}
+
+/* Normalize child components inside layout for consistency */
+.item-details-layout .details .details-container{
+    border: 0;
+    border-radius: 16px;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    color: #2c3e50;
+}
+
+.item-details-layout .sidebar .leaderboard-container{
+    margin-left: 0;
+    height: auto;
+    background: #cde4fc;
+}
+
+.item-details-layout .sidebar .leaderboard-form{
+    max-width: 100%;
+}
+
+.item-details-layout .sidebar .chapter-list{
+    margin-bottom: 10px;
+}
+
+.item-details-layout .sidebar .chapter-item{
+    border-color: #99c9f9;
+    color: #2c3e50;
+    background: #cde4fc;
+    border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1024px){
+    .item-details-layout{ padding: 12px; }
+    .hero{ grid-template-columns: 1fr; }
+    .author-sidebar{ position: static; }
+    .content{ grid-template-columns: 1fr; }
+    .sidebar{ position: static; }
+}
+
+/* Smooth scroll for scroller */
+.items-scroller{ scroll-snap-type: x mandatory; }
+.items-scroller > *{ scroll-snap-align: start; }

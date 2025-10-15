@@ -13,10 +13,15 @@
 </template>
 
 <script setup>
+import router from '@/router'
 
 const props = defineProps({
   item: Object
 })
+
+const handleClick = () =>{
+  router.push('/details')
+}
 </script>
 
 <style scoped src="@/css/itemcard.css"></style>

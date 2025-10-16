@@ -18,3 +18,9 @@ export function buildItemDetailsPath(item){
   const idOrSlug = getPreferredIdentifier(item)
   return `/details/${idOrSlug}`
 }
+
+export function buildReadPath(item, chapter){
+  const idOrSlug = getPreferredIdentifier(item)
+  const safeChapter = Number.isFinite(Number(chapter)) && Number(chapter) > 0 ? Number(chapter) : 1
+  return `/read/${idOrSlug}/${safeChapter}`
+}

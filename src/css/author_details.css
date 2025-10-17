@@ -6,6 +6,9 @@
   color: #4a90e2;
   font-weight: 500;
 }
+.author-content{
+  margin-top: 8px;
+}
 .author-card {
   margin-bottom: 1rem;
   padding: 1rem;

@@ -126,13 +126,16 @@
         height: auto;
         max-height: none;
         overflow-y: visible;
+        justify-content: center;
+        grid-auto-columns: minmax(160px, 240px);
     }
     .chapter-middle{ 
         position: static;
         order: 2;
         height: auto;
-        max-height: none;
-        overflow-y: visible;
+        max-height: 400px;
+        overflow-y: auto;
+        width: 100%;
     }
     .author-sidebar{ 
         position: static;
@@ -140,6 +143,7 @@
         height: auto;
         max-height: none;
         overflow-y: visible;
+        width: 100%;
     }
     .content{ grid-template-columns: 1fr; }
     .sidebar{ position: static; }
@@ -153,10 +157,55 @@
 }
 
 @media (max-width: 768px){
+    .item-details-layout{ padding: 8px; }
+    .hero{ gap: 12px; }
+    
+    .chapter-middle{ 
+        max-height: 300px;
+        padding: 12px 8px 12px 12px;
+        width: 100%;
+    }
+    .author-sidebar{ 
+        max-height: none;
+        width: 100%;
+    }
+    
     .item-details-layout .items-scroller .items-card {
         height: 200px;
         max-width: 200px;
         min-width: 140px;
+    }
+    
+    /* Responsive author-container for mobile */
+    .item-details-layout .author-sidebar .author-container {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px){
+    .item-details-layout{ padding: 6px; }
+    .hero{ gap: 8px; }
+    
+    .chapter-middle{ 
+        max-height: 250px;
+        padding: 8px 6px 8px 8px;
+        border-radius: 16px;
+        width: 100%;
+    }
+    .author-sidebar{ 
+        max-height: none;
+        width: 100%;
+    }
+    
+    .item-details-layout .items-scroller .items-card {
+        height: 180px;
+        max-width: 180px;
+        min-width: 120px;
+    }
+    
+    /* Responsive author-container for small mobile */
+    .item-details-layout .author-sidebar .author-container {
+        max-height: 250px;
     }
 }
 
@@ -221,7 +270,8 @@
 
 /* Specific styling for AuthorDetails scrollbar inside its border */
 .item-details-layout .author-sidebar .author-container {
-    height: 100%;
+    height: auto;
+    max-height: 400px;
     overflow-y: auto;
     padding: 1rem;
     margin: 0;
@@ -299,4 +349,27 @@
 .item-details-layout .chapter-middle .chapter-list {
     scrollbar-width: thin;
     scrollbar-color: #99c9f9 transparent;
+}
+
+/* Global mobile constraints để ngăn vỡ UI */
+@media (max-width: 768px) {
+    .item-details-layout * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .item-details-layout .author-sidebar,
+    .item-details-layout .author-sidebar * {
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .item-details-layout .author-sidebar .author-container {
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .item-details-layout .author-sidebar .author-container * {
+        max-width: 100%;
+    }
 }

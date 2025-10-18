@@ -40,7 +40,7 @@
 </transition>
 </template>
 
-<style scoped src="@/css/loading.css"></style>
+<style scoped src="@/css/common/loading.css"></style>
 <script setup>
   import { useLoadingStore } from '@/js/composables/useLoadingStore';
   const loadingStore = useLoadingStore()

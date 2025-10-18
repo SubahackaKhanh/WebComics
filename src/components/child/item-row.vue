@@ -29,4 +29,4 @@ function go(){
 }
 </script>
 
-<style scoped src="@/css/itemrow.css"></style>
+<style scoped src="@/css/child/itemrow.css"></style>

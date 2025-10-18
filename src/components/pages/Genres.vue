@@ -19,4 +19,4 @@ import List_items from '../main-items/List_items.vue'
 const selectedTags = ref([])
 </script>
 
-<style scoped src="@/css/genres.css"></style>
+<style scoped src="@/css/pages/genres.css"></style>

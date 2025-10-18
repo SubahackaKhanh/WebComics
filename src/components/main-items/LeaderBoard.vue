@@ -32,4 +32,4 @@ const items = ref(
 );
 </script>
 
-<style scoped src="@/css/leaderboard.css"></style>
+<style scoped src="@/css/main-items/leaderboard.css"></style>

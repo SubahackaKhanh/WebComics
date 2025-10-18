@@ -42,18 +42,6 @@
     }
 </script>
 
-<style scoped>
-    .read-page{ padding:16px; color:#e5e7eb }
-    .back-btn{ margin-bottom:10px; border:2px solid #93c5fd; color:#60a5fa; background:transparent; padding:6px 12px; border-radius:10px; cursor:pointer; transition: all .2s ease }
-    .back-btn:hover{ background:#0b1220; box-shadow:0 0 10px rgba(147,197,253,.4) }
-    .read-title{ color:#93c5fd; margin:0 0 12px 0 }
-    .reader-controls{ display:flex; align-items:center; gap:12px; margin-bottom:12px }
-    .chapter-indicator{ border:1px solid #93c5fd; border-radius:8px; padding:6px 10px; color:#60a5fa }
-    .nav-btn{ border:2px solid #93c5fd; color:#60a5fa; background:transparent; padding:6px 12px; border-radius:10px; cursor:pointer; transition: all .2s ease }
-    .nav-btn:hover{ background:#0b1220; box-shadow:0 0 10px rgba(147,197,253,.4) }
-    .nav-btn:disabled{ opacity:.5; cursor:not-allowed }
-    .reader-content{ border:2px solid #93c5fd; border-radius:16px; padding:16px; min-height:200px }
-    .page-placeholder{ color:#93c5fd }
-</style>
+<style scoped src="@/css/pages/read.css"></style>
 
 

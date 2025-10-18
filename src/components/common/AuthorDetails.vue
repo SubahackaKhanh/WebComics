@@ -1,35 +1,32 @@
 <template>
   <div class="author-container">
+    <!-- Nút tổng -->
     <button class="author-toggle" @click="toggleOpen">
       <span>Tác giả</span>
       <span class="chevron" :class="{ open: isOpen }">▾</span>
     </button>
 
-    <transition name="author-slide">
-      <div v-if="isOpen" class="author-content">
-        <div v-for="item in authors" :key="item.id" class="author-card">
-          <h3 class="author-name">{{ item.name }}</h3>
-          <p class="author-bio">{{ item.bio }}</p>
-          <p class="author-email"><strong>Email:</strong> {{ item.email }}</p>
-        </div>
-
-        <HorizontalItems
-          :title="'Cùng tác giả'"
-          :items="worksByAuthor"
+    <!-- Transition bọc cả danh sách -->
+    <Transition name="author-slide">
+      <div v-if="isOpen">
+        <AuthorItem
+          v-for="item in authors"
+          :key="item.id"
+          :author="item"
+          :worksByAuthor="worksByAuthor"
         />
       </div>
-    </transition>
+    </Transition>
   </div>
-  
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import HorizontalItems from '@/components/main-items/Horizontal_items.vue'
+import AuthorItem from '../child/AuthorItem.vue'
 
-const isOpen = ref(true)
+const isOpen = ref(false) 
 
-function toggleOpen(){
+function toggleOpen() {
   isOpen.value = !isOpen.value
 }
 
@@ -48,7 +45,7 @@ const authors = [
   }
 ]
 
-// Placeholder works list to mimic future API data
+// Placeholder works list
 const worksByAuthor = [
   { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
   { name: 'Eyeshield 21', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
@@ -57,14 +54,4 @@ const worksByAuthor = [
 ]
 </script>
 
-<style scoped src="@/css/author_details.css"></style>
-<style scoped>
-.author-toggle{ display:flex; justify-content:space-between; align-items:center; width:100%; padding:10px 12px; border:3px solid #99c9f9; background:#cde4fc; color:#4a90e2; border-radius:8px; cursor:pointer; font-weight:600 }
-.chevron{ transition: transform .2s ease }
-.chevron.open{ transform: rotate(180deg) }
-.author-content{ margin-top:10px }
-.author-name{ margin:0 0 6px 0 }
-.author-bio{ margin:0 0 4px 0 }
-.author-slide-enter-from, .author-slide-leave-to{ opacity:0; transform: translateY(-6px) }
-.author-slide-enter-active, .author-slide-leave-active{ transition: all .2s ease }
-</style>
+<style scoped src="@/css/common/author_details.css"></style>

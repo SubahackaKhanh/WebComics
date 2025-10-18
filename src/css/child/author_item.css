@@ -11,3 +11,163 @@
   cursor:pointer; 
   font-weight:600 
 }
+
+.author-item{
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.author-content{
+  margin-top: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.author-bio{
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.author-email{
+  margin: 0 0 12px 0;
+  font-size: 0.85rem;
+}
+
+/* Responsive cho HorizontalItems trong AuthorItem */
+.author-content .grid-items-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Ẩn nút scroll trong AuthorItem */
+.author-content .scroll-btn {
+  display: none;
+}
+
+.author-content .grid-items {
+  padding: 12px 24px;
+  gap: 8px;
+  border-radius: 20px;
+  max-width: 100%;
+}
+
+.author-content .grid-items .items-card {
+  flex: 0 0 120px;
+  min-width: 100px;
+}
+
+.author-content .grid-items h1 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+  .author-item {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content .grid-items-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content .grid-items {
+    padding: 6px 12px;
+    gap: 4px;
+    border-radius: 12px;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  
+  .author-content .grid-items .items-card {
+    flex: 0 0 80px;
+    min-width: 70px;
+    max-width: 80px;
+  }
+  
+  .author-content .grid-items h1 {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+  
+  .author-bio {
+    font-size: 0.8rem;
+    word-wrap: break-word;
+  }
+  
+  .author-email {
+    font-size: 0.75rem;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .author-item {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  .author-content {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content .grid-items-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content .grid-items {
+    padding: 4px 8px;
+    gap: 3px;
+    border-radius: 8px;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  
+  .author-content .grid-items .items-card {
+    flex: 0 0 60px;
+    min-width: 50px;
+    max-width: 60px;
+  }
+  
+  .author-content .grid-items h1 {
+    font-size: 0.7rem;
+    margin-bottom: 2px;
+  }
+  
+  .author-bio {
+    font-size: 0.75rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .author-email {
+    font-size: 0.7rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}

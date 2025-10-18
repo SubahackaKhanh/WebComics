@@ -69,11 +69,56 @@
 
 .author-item{
   margin-top: 10px;
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
   margin: auto;
   padding-top: 10px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Mobile constraints để ngăn vỡ UI */
+@media (max-width: 768px) {
+  .author-container {
+    padding: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-item {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Force horizontal items to be constrained */
+  .author-content .grid-items-wrapper {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .author-content .grid-items {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .author-container {
+    padding: 0.25rem;
+  }
+  
+  .author-toggle {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
 }
 

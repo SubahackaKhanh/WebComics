@@ -179,6 +179,8 @@
     /* Responsive author-container for mobile */
     .item-details-layout .author-sidebar .author-container {
         max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 }
 
@@ -206,6 +208,8 @@
     /* Responsive author-container for small mobile */
     .item-details-layout .author-sidebar .author-container {
         max-height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 }
 
@@ -273,6 +277,7 @@
     height: auto;
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 1rem;
     margin: 0;
 }

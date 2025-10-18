@@ -88,4 +88,4 @@
   useClickOutside(containerRef, () => close())
 </script>
 
-<style scoped src="@/css/searchbar.css"></style>
+<style scoped src="@/css/main-items/searchbar.css"></style>

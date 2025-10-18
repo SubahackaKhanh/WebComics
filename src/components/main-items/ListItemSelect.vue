@@ -26,4 +26,4 @@ const formatDate = (dateStr) => {
 }
 </script>
 
-<style scoped src="@/css/listitemselect.css"></style>
+<style scoped src="@/css/main-items/listitemselect.css"></style>

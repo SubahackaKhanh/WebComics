@@ -42,4 +42,4 @@ const itemsToRender = computed(() => (props.items && props.items.length ? props.
 const titleToRender = computed(() => props.title || 'Top Favorite')
 </script>
 
-<style scoped src="@/css/horizontal_items.css"></style>
+<style scoped src="@/css/main-items/horizontal_items.css"></style>

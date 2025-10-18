@@ -47,4 +47,4 @@ function clearTags() {
 }
 </script>
 
-<style scoped src="@/css/tags.css"></style>
+<style scoped src="@/css/child/tags.css"></style>

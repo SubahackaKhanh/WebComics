@@ -40,4 +40,4 @@
     window.addEventListener('resize', updateLeaderboardHeight);
 </script>
 
-<style scoped src="@/css/home.css"></style>
+<style scoped src="@/css/pages/home.css"></style>

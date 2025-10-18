@@ -24,4 +24,4 @@ const handleClick = () =>{
 }
 </script>
 
-<style scoped src="@/css/itemcard.css"></style>
+<style scoped src="@/css/child/itemcard.css"></style>

@@ -36,4 +36,4 @@ import { isMenuOpen, toggleMenu } from '@/js/MenuIcon';
 defineExpose({ isMenuOpen, toggleMenu })
 </script>
 
-<style scoped src="@/css/header.css"></style>
+<style scoped src="@/css/global/header.css"></style>

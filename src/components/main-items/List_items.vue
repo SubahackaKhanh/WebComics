@@ -84,4 +84,4 @@ defineExpose({
 });
 </script>
 
-<style scoped src="@/css/list_item.css"></style>
+<style scoped src="@/css/main-items/list_item.css"></style>

@@ -27,7 +27,7 @@
 
 <script setup>
 import { usePaginationStore } from "@/js/module/pagination";
-import "@/css/pagination.css";
-
 const pagination = usePaginationStore();
 </script>
+
+<style scoped src="@/css/common/pagination.css"></style>

@@ -25,4 +25,4 @@
     }
 </script>
 
-<style scoped src="@/css/itemdetails.css"></style>
+<style scoped src="@/css/common/itemdetails.css"></style>

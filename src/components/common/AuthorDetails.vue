@@ -48,7 +48,7 @@ const authors = [
 // Placeholder works list
 const worksByAuthor = [
   { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
-  { name: 'Eyeshield 21', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
+  { name: 'Eyesyahiro Pochihield 21', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
   { name: 'Manga Sample A', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'HOT' },
   { name: 'Manga Sample B', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'New' }
 ]

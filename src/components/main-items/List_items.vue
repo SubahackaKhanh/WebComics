@@ -1,13 +1,27 @@
 <template>
   <div class="list-item-container" ref="listContainerRef">
-    <div class="list-items">
+    <!-- Error state -->
+    <div v-if="animeStore.hasError" class="error-state">
+      <p>Failed to load anime list</p>
+      <button @click="retryLoad">Retry</button>
+    </div>
+    
+    <!-- Empty state -->
+    <div v-else-if="!storeItems.length" class="empty-state">
+      <p>No anime available</p>
+    </div>
+    
+    <!-- Anime list -->
+    <div v-else class="list-items">
         <items-card
           v-for="(item, index) in paginatedItems"
           :key="index"
           :item="item"
         />
     </div>    
-    <div class="list-items-pagination">
+    
+    <!-- Pagination -->
+    <div v-if="storeItems.length > 0" class="list-items-pagination">
         <Pagination/>
     </div>
   </div>
@@ -17,9 +31,13 @@
 import itemsCard from "../child/items-card.vue";
 import Pagination from "@/components/common/Pagination.vue";
 import { usePaginationStore } from "@/js/module/pagination";
+import { useAnimeStore } from '@/js/composables/useAnimeStore'
+import { useLoadingStore } from '@/js/composables/useLoadingStore'
 import { computed, ref, onMounted, watch, nextTick } from "vue";
 
 const pagination = usePaginationStore();
+const animeStore = useAnimeStore();
+const loadingStore = useLoadingStore();
 const listContainerRef = ref(null);
 const listHeight = ref(0);
 
@@ -28,30 +46,38 @@ const updateHeight = () => {
     listHeight.value = listContainerRef.value.offsetHeight;
   }
   console.log(listContainerRef.value.offsetHeight,"width");
-  
 };
 
+// Computed để lấy dữ liệu từ store
+const storeItems = computed(() => animeStore.getTransformedTopAnime)
 
+// Computed để tính toán dữ liệu cho trang hiện tại
+const paginatedItems = computed(() => {
+  const items = storeItems.value;
+  const start = (pagination.currentPage - 1) * pagination.pageSize;
+  const end = start + pagination.pageSize;
+  return items.slice(start, end);
+});
 
-// Dữ liệu mẫu 500 item
-const items = ref(
-  Array.from({ length: 500 }, (_, i) => ({
-    name:
-      i % 3 === 0
-        ? "One Punch Man"
-        : i % 3 === 1
-        ? "Finger Man"
-        : "Figger Man",
-    image: "https://picfiles.alphacoders.com/178/178909.jpg",
-    status:
-      i % 3 === 0 ? "Ongoing" : i % 3 === 1 ? "Completed" : "HOT",
-  }))
-);
-
-// Gán tổng số item cho pagination
-onMounted(() => {
+// Load data khi component mount
+onMounted(async () => {
+  try {
+    // Load top anime data
+    await animeStore.fetchTopAnime();
+    
+    // Set total items cho pagination
+    pagination.setTotalItems(storeItems.value.length);
+    
+    // Update height sau khi images load
+    await nextTick();
     const imgs = listContainerRef.value.querySelectorAll("img");
     let loaded = 0;
+    
+    if (imgs.length === 0) {
+      updateHeight();
+      return;
+    }
+    
     imgs.forEach(img => {
       if (img.complete) {
         loaded++;
@@ -62,21 +88,38 @@ onMounted(() => {
         });
       }
     });
+    
+    if (loaded === imgs.length) {
+      updateHeight();
+    }
+  } catch (error) {
+    console.error('Failed to load anime data:', error);
     updateHeight();
-  pagination.setTotalItems(items.value.length);
+  }
 });
 
+// Watch pagination changes
 watch(() => pagination.currentPage, async () => {
   await nextTick();
   updateHeight();
 });
 
-// Tính toán dữ liệu cho trang hiện tại
-const paginatedItems = computed(() => {
-  const start = (pagination.currentPage - 1) * pagination.pageSize;
-  const end = start + pagination.pageSize;
-  return items.value.slice(start, end);
-});
+// Watch store data changes để update pagination
+watch(() => storeItems.value, (newItems) => {
+  if (newItems.length > 0) {
+    pagination.setTotalItems(newItems.length);
+  }
+}, { deep: true });
+
+// Retry function
+const retryLoad = async () => {
+  try {
+    await animeStore.fetchTopAnime();
+    pagination.setTotalItems(storeItems.value.length);
+  } catch (error) {
+    console.error('Failed to retry load anime data:', error);
+  }
+};
 
 defineExpose({
   listHeight,

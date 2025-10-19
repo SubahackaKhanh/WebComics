@@ -1,11 +1,30 @@
 <template>
-    <Horizontal_items />
-    <div class="list">
-        <div class = "list-container">
-            <List_items ref="listComp"/>
-        </div>
-        <div class ="leaderboard" :style="{ height: leaderboardHeight + 'px' }">
-            <LeaderBoard/>
+    <div class="home-container">
+        <!-- Top Anime Section -->
+        <Horizontal_items 
+            title="Top Anime" 
+            type="top"
+        />
+        
+        <!-- Airing Anime Section -->
+        <Horizontal_items 
+            title="Currently Airing" 
+            type="airing"
+        />
+        
+        <!-- Upcoming Anime Section -->
+        <Horizontal_items 
+            title="Upcoming Anime" 
+            type="upcoming"
+        />
+        
+        <div class="list">
+            <div class = "list-container">
+                <List_items ref="listComp"/>
+            </div>
+            <div class ="leaderboard" :style="{ height: leaderboardHeight + 'px' }">
+                <LeaderBoard/>
+            </div>
         </div>
     </div>
 </template>

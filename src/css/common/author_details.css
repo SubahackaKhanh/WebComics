@@ -84,7 +84,8 @@
   .author-container {
     padding: 0.5rem;
     max-width: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .author-item {

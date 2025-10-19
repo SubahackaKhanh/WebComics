@@ -29,7 +29,9 @@
 
     <!-- suggestions -->
     <ul v-if="show" class="search-suggest">
+      <li v-if="isSearching" class="loading">Đang tìm kiếm...</li>
       <li
+        v-else
         v-for="(item, idx) in limited"
         :key="idx"
         :class="{ active: idx === activeIndex }"
@@ -40,30 +42,77 @@
         <span class="name">{{ item.name }}</span>
         <span class="badge" :class="item.status?.toLowerCase()">{{ item.status }}</span>
       </li>
-      <li v-if="!limited.length" class="empty">Không có kết quả</li>
+      <li v-if="!isSearching && !limited.length && searchQuery.trim()" class="empty">Không có kết quả</li>
     </ul>
   </div>
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue'
+  import { ref, computed, watch } from 'vue'
   import { useRouter } from 'vue-router'
-  import { isSearchOpen, isLargeScreen, toggleSearch, useSearchBar, searchQuery } from '@/js/composables/useOpenSearchIcon'
+  import { isSearchOpen, isLargeScreen, toggleSearch } from '@/js/composables/useOpenSearchIcon'
   import { useClickOutside } from '@/js/composables/useClickOutside'
   import { useSuggestList } from '@/js/composables/useSuggestList'
-  const { filteredItems } = useSearchBar()
+  import { useAnimeStore } from '@/js/composables/useAnimeStore'
+  
   const router = useRouter()
+  const animeStore = useAnimeStore()
 
   const containerRef = ref(null)
   const inputRef = ref(null)
   const { isOpen, show, open, close, setHasResults } = useSuggestList()
-
+  const searchQuery = ref('')
   const activeIndex = ref(-1)
-  const limited = computed(() => filteredItems.value.slice(0, 8))
+  const searchResults = ref([])
+  const isSearching = ref(false)
+
+  // Computed để lấy kết quả tìm kiếm
+  const limited = computed(() => {
+    if (searchResults.value.length > 0) {
+      return searchResults.value.slice(0, 8)
+    }
+    return []
+  })
+
+  // Debounced search function
+  let searchTimeout = null
+  const performSearch = async (query) => {
+    if (!query.trim()) {
+      searchResults.value = []
+      return
+    }
+
+    try {
+      isSearching.value = true
+      const response = await animeStore.searchAnime(query, 'anime', 1, 10)
+      searchResults.value = animeStore.transformAnimeData(response.data || [])
+    } catch (error) {
+      console.error('Search failed:', error)
+      searchResults.value = []
+    } finally {
+      isSearching.value = false
+    }
+  }
 
   function onInput(){
     const hasText = !!searchQuery.value.trim()
-    if (hasText){ open() } else { close() }
+    
+    // Clear previous timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout)
+    }
+    
+    if (hasText) {
+      open()
+      // Debounce search by 300ms
+      searchTimeout = setTimeout(() => {
+        performSearch(searchQuery.value)
+      }, 300)
+    } else { 
+      close()
+      searchResults.value = []
+    }
+    
     setHasResults(limited.value.length > 0)
     activeIndex.value = -1
   }
@@ -75,14 +124,21 @@
     else if (next >= limited.value.length) activeIndex.value = 0
     else activeIndex.value = next
   }
+  
   function selectActive(){
     if (activeIndex.value >= 0) goTo(limited.value[activeIndex.value])
   }
+  
   function goTo(item){
     close()
     searchQuery.value = item?.name || ''
     if (inputRef.value) inputRef.value.blur()
-    router.push('/details')
+    // Navigate to anime details using the anime ID
+    if (item?.id) {
+      router.push(`/details/${item.id}`)
+    } else {
+      router.push('/details')
+    }
   }
 
   useClickOutside(containerRef, () => close())

@@ -49,12 +49,10 @@
     onMounted(async () => {
         await nextTick();
         updateLeaderboardHeight();
-    });
 
-    onMounted(async () => {
         await new Promise(resolve => setTimeout(resolve, 800)) // fetch API giả
         loading.hide()
-    })
+    });
 
     window.addEventListener('resize', updateLeaderboardHeight);
 </script>

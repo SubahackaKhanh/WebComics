@@ -51,7 +51,7 @@
         updateLeaderboardHeight();
 
         await new Promise(resolve => setTimeout(resolve, 800)) // fetch API giả
-        loading.hide()
+        loading.hide();
     });
 
     window.addEventListener('resize', updateLeaderboardHeight);

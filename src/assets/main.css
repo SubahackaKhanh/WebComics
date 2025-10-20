@@ -1,6 +1,4 @@
+@import url('../css/common/states.css');
 html{
     background-color: #d8ebfe;
 }
-
-/* Import common states styles */
-@import url('../css/common/states.css');

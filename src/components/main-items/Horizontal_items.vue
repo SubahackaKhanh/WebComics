@@ -1,4 +1,4 @@
-git <template>
+<template>
   <div class="grid-items-wrapper">
     
     <button class="scroll-btn left" @click="scrollLeft">❮</button>

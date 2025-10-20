@@ -1,5 +1,5 @@
 <template>
-  <Loading />
+  <Loading v-if="loading.global" />
   <RateLimitWarning />
   <router-view />
 </template>

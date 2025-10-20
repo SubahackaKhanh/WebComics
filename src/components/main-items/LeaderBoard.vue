@@ -4,7 +4,7 @@
         <h1>LeaderBoard</h1>
       <ItemRow
         v-for="(item, index) in items"
-        :key="index"
+        :key="item.mal_id"
         :item="item"
         :rank="index + 1"
       />
@@ -15,21 +15,28 @@
 
 <script setup>
 import ItemRow from '../child/item-row.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { getTopManga } from '@/js/services/api/mangaApi';
 
-const items = ref(
-  Array.from({ length: 10 }, (_, i) => ({
-    name:
-      i % 3 === 0
-        ? "One Punch Man"
-        : i % 3 === 1
-        ? "Finger Man"
-        : "Figger Man",
-    image: "https://picfiles.alphacoders.com/178/178909.jpg",
-    status:
-      i % 3 === 0 ? "Ongoing" : i % 3 === 1 ? "Completed" : "HOT",
-  }))
-);
+const loading = ref(false);
+const items = ref([]);
+const error = ref(null)
+
+onMounted(async () =>{
+  loading.value = true
+  error.value = null
+
+  try {
+    const data = await getTopManga(1,10)
+    items.value = data
+    console.log('Top Manga: ', data);
+  } catch (err){
+    error.value = 'Không thể tải leaderboard'
+    console.error(err);
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped src="@/css/main-items/leaderboard.css"></style>

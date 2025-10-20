@@ -1,14 +1,14 @@
 <template>
   <div class="list-item-container" ref="listContainerRef">
     <div class="list-items">
-        <items-card
-          v-for="(item, index) in paginatedItems"
-          :key="index"
-          :item="item"
-        />
+      <items-card
+        v-for="(item, index) in paginatedItems"
+        :key="index"
+        :item="item"
+      />
     </div>    
     <div class="list-items-pagination">
-        <Pagination/>
+      <Pagination/>
     </div>
   </div>
 </template>
@@ -19,6 +19,13 @@ import Pagination from "@/components/common/Pagination.vue";
 import { usePaginationStore } from "@/js/module/pagination";
 import { computed, ref, onMounted, watch, nextTick } from "vue";
 import { getListManga } from "@/js/services/api/mangaApi";
+
+const props = defineProps({
+  selectedTags: {
+    type: Array,
+    default: () => [] 
+  }
+});
 
 const pagination = usePaginationStore();
 const listContainerRef = ref(null);
@@ -32,12 +39,16 @@ const updateHeight = () => {
   }
 };
 
+const paginatedItems = computed(() => {
+  return items.value; // Bỏ lọc client-side vì API đã xử lý
+});
+
 // Hàm gọi API để lấy danh sách manga
 const fetchManga = async () => {
   try {
-    const response = await getListManga(pagination.currentPage, pagination.pageSize);
-    items.value = response.items; // Cập nhật danh sách manga
-    pagination.setTotalItems(response.pagination.totalItems); // Cập nhật tổng số item
+    const response = await getListManga(pagination.currentPage, pagination.pageSize, props.selectedTags);
+    items.value = response.items;
+    pagination.setTotalItems(response.pagination.totalItems);
   } catch (err) {
     console.error("Error fetching manga:", err);
   }
@@ -61,17 +72,15 @@ onMounted(async () => {
   updateHeight();
 });
 
-// Theo dõi thay đổi trang và gọi lại API
-watch(() => pagination.currentPage, async () => {
+// Theo dõi thay đổi trang và selectedTags
+watch([() => pagination.currentPage, () => props.selectedTags], async ([newPage, newTags], [oldPage, oldTags]) => {
+  if (JSON.stringify(newTags) !== JSON.stringify(oldTags)) {
+    pagination.setPage(1); // Reset về trang 1 khi tags thay đổi
+  }
   await fetchManga();
   await nextTick();
   updateHeight();
-});
-
-// Dữ liệu cho trang hiện tại
-const paginatedItems = computed(() => {
-  return items.value;
-});
+}, { deep: true }); // deep để so sánh mảng
 
 defineExpose({
   listHeight,

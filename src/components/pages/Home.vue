@@ -1,5 +1,8 @@
 <template>
-    <Horizontal_items />
+    <Horizontal_items
+        :title = "'Top New Manga'"
+        :fetchFunction="getNewManga"
+    />
     <div class="list">
         <div class = "list-container">
             <List_items ref="listComp"/>
@@ -11,6 +14,7 @@
 </template>
 
 <script setup>
+    import { getNewManga } from '@/js/services/api/mangaApi';
     import Horizontal_items from '../main-items/Horizontal_items.vue';
     import LeaderBoard from '../main-items/LeaderBoard.vue';
     import List_items from '../main-items/List_items.vue';

@@ -1,4 +1,4 @@
-git <template>
+<template>
   <div class="grid-items-wrapper">
     
     <button class="scroll-btn left" @click="scrollLeft">❮</button>
@@ -10,6 +10,9 @@ git <template>
         :key="index"
         :item="item"
       />
+      <div v-if="!itemsToRender.length" class="empty-state">
+        Không có dữ liệu 
+      </div>
     </div>
 
     <button class="scroll-btn right" @click="scrollRight">❯</button>
@@ -19,27 +22,28 @@ git <template>
 <script setup>
 import itemsCard from '../child/items-card.vue'
 import { useScroll } from '@/js/composables/use_Scroll_Horizontal_item'
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { getNewManga } from '@/js/services/api/mangaApi'
 
 const { scrollContainer, scrollLeft, scrollRight} = useScroll()
 
 const props = defineProps({
-  title: { type: String, default: 'Top Favorite' },
-  items: { type: Array, default: () => [] }
+  title: { type: String, required: true },
+  fetchFunction: { type: Function, required: true }
 })
 
-const defaultItems = [
-  { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
-  { name: 'Naruto', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
-  { name: 'Jujutsu Kaisen', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'HOT' },
-  { name: 'Demon Slayer', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'New' },
-  { name: 'Attack on Titan', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
-  { name: 'Chainsaw Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
-  { name: 'Monkey Leveling', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'HOT' }
-]
+const items = ref ([])
 
-const itemsToRender = computed(() => (props.items && props.items.length ? props.items : defaultItems))
-const titleToRender = computed(() => props.title || 'Top Favorite')
+onMounted(async () =>{
+    try {
+      items.value = await props.fetchFunction()
+    } catch (err){
+      console.error('Failed to load data:', err);
+    }
+})
+
+const itemsToRender = computed(() => items.value)
+const titleToRender = computed(() => props.title)
 </script>
 
 <style scoped src="@/css/main-items/horizontal_items.css"></style>

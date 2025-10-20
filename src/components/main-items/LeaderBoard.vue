@@ -4,7 +4,7 @@
         <h1>LeaderBoard</h1>
       <ItemRow
         v-for="(item, index) in items"
-        :key="item.mal_id"
+        :key="index"
         :item="item"
         :rank="index + 1"
       />

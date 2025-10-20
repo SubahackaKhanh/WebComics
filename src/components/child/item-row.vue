@@ -4,10 +4,10 @@
       {{ rank }}
     </div>
     <div class="item-pic">
-      <img :src="item.images?.jpg?.image_url" :alt="item.title" />
+      <img :src="item.image" :alt="item.name" />
     </div>
     <div class="item-name">
-      {{ item.title }}
+      {{ item.name }}
       <div class="item-chapter" :class="item.status?.toLowerCase()">
         {{ item.status }}
       </div>

@@ -1,17 +1,43 @@
-.list-container{
-    width: 70%;
+.list-container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
 }
 
-.leaderboard{
-    width: 25%;
-    margin-left: 20px;
-    margin-top: 10px;
+.leaderboard {
+  width: 25%;
+  margin-left: 20px;
+  margin-top: 10px;
 }
 
-.list{
-    display:flex;
-    align-items: flex-start;
-    justify-content: start;
-    flex-wrap: wrap;
-    min-height: 80vh;
+.list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  flex-wrap: wrap;
+  min-height: calc(100vh - 100px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .list-container {
+    width: 100%;
+  }
+
+  .leaderboard {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+    max-height: 50vh; /* Smaller max height on smaller screens */
+  }
+
+  .list {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .leaderboard {
+    min-height: 250px; /* Slightly smaller minimum height for mobile */
+  }
 }

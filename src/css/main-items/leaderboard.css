@@ -6,7 +6,8 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
-  height:90%;
+  height: 100%; /* Use full height of parent */
+  box-sizing: border-box;
 }
 
 .leaderboard-form {
@@ -30,7 +31,7 @@
   letter-spacing: 0.5px;
 }
 
-/* scrollbar nhẹ nhàng */
+/* Scrollbar styling */
 .leaderboard-form::-webkit-scrollbar {
   width: 6px;
 }
@@ -39,15 +40,14 @@
   border-radius: 8px;
 }
 
-/* 🔹 Responsive: bo gọn khung và giảm margin */
+/* Responsive adjustments */
 @media (max-width: 900px) {
   .leaderboard-container {
-    margin-left: 0;
     border-radius: 18px;
   }
 
   .leaderboard-form {
-    max-width: 400px;
+    max-width: 100%;
     padding: 0.75rem;
   }
 

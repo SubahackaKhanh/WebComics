@@ -13,14 +13,24 @@
 </template>
 
 <script setup>
-import router from '@/router'
+// import router from '@/router'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const props = defineProps({
-  item: Object
+  item: {
+    type: Object,
+    required: true,
+    default: () => ({})
+  }
 })
 
 const handleClick = () =>{
-  router.push('/details')
+  if (props.item.mal_id){
+    router.push(`/details/${props.item.mal_id}`)
+  } else {
+    console.warn('No mal_id found for item: ', props.item);
+  }
 }
 </script>
 

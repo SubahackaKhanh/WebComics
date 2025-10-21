@@ -4,12 +4,10 @@
       <span>{{ author.name }}</span>
       <span class="chevron" :class="{ open: isOpen }">▾</span>
     </button>
-
     <transition name="author-slide">
       <div v-if="isOpen" class="author-content">
         <p class="author-bio">{{ author.bio }}</p>
         <p class="author-email"><strong>Email:</strong> {{ author.email }}</p>
-
         <HorizontalItems
           :title="'Cùng tác giả'"
           :items="worksByAuthor"
@@ -24,11 +22,19 @@ import { ref } from 'vue'
 import HorizontalItems from '@/components/main-items/Horizontal_items.vue'
 
 const props = defineProps({
-  author: Object,
-  worksByAuthor: Array
+  author: {
+    type: Object,
+    required: true,
+    default: () => ({ name: 'Unknown', bio: '', email: '' })
+  },
+  worksByAuthor: {
+    type: Array,
+    default: () => []
+  }
 })
 
 const isOpen = ref(false)
+
 function toggleOpen() {
   isOpen.value = !isOpen.value
 }

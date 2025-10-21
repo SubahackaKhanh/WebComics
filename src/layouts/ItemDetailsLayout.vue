@@ -26,21 +26,48 @@
         </main>
     </div>
     <Footer/>
-
 </template>
 
 <script setup>
-import Footer from '@/components/global/Footer.vue';
-import Header from '@/components/global/Header.vue';
-import LeaderBoard from '@/components/main-items/LeaderBoard.vue';
-import ItemDetails from '@/components/common/ItemDetails.vue';
-import ListItemSelect from '@/components/main-items/ListItemSelect.vue';
-import AuthorDetails from '@/components/common/AuthorDetails.vue';
-import itemsCard from '@/components/child/items-card.vue';
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import Footer from '@/components/global/Footer.vue'
+import Header from '@/components/global/Header.vue'
+import LeaderBoard from '@/components/main-items/LeaderBoard.vue'
+import ItemDetails from '@/components/common/ItemDetails.vue'
+import ListItemSelect from '@/components/main-items/ListItemSelect.vue'
+import AuthorDetails from '@/components/common/AuthorDetails.vue'
+import itemsCard from '@/components/child/items-card.vue'
+import { getMangaDetail, getMangaRelations } from '@/js/services/api/mangaApi'
 
-const items = [{
-    name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing',
-}]
+const route = useRoute()
+const items = ref([])
+
+onMounted(async () => {
+  const id = route.params.idOrSlug
+  if (id) {
+    try {
+      const manga = await getMangaDetail(id)
+      items.value = [{
+        mal_id: manga.mal_id,
+        name: manga.title,
+        image: manga.images?.jpg?.large_image_url || manga.images?.jpg?.image_url || '',
+        status: manga.status
+      }]
+      
+      // Nếu muốn related items: Uncomment dưới
+      // const relations = await getMangaRelations(id)
+      // items.value = relations.map(rel => ({
+      //   mal_id: rel.entry?.[0]?.mal_id,
+      //   name: rel.entry?.[0]?.name,
+      //   image: rel.entry?.[0]?.images?.jpg?.image_url || '',
+      //   status: rel.relation
+      // }))
+    } catch (err) {
+      console.error('Error fetching items:', err)
+    }
+  }
+})
 </script>
 
 <style scoped src="@/css/layout/ItemDetailsLayout.css"></style>

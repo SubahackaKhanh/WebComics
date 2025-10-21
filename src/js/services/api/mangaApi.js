@@ -102,3 +102,24 @@ export async function getListManga(page = 1, limit = 25, genres = []) {
     throw err;
   }
 }
+
+export async function getMangaDetail(mal_id){
+  try{
+    const response = await api.get(`/manga/${mal_id}/full`);
+    return response.data.data;
+  } catch (err){
+    console.error("Failed to fetch manga details: ", err);
+    throw err;
+  }
+}
+
+export async function getMangaRelations(mal_id){
+  try{
+    const response = await api.get(`/manga/${mal_id}/relations`);
+    return response.data.data;
+  } catch (err){
+    console.error("Failed to fetch manga relations: ", err);
+    throw err;
+  }
+}
+

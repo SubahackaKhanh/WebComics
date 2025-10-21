@@ -9,6 +9,9 @@
                     :item="item"
                 />
             </div>
+            <aside class="chapter-middle">
+                <ListItemSelect/>
+            </aside>
             <aside class="author-sidebar">
                 <AuthorDetails/>
             </aside>
@@ -18,7 +21,6 @@
                 <ItemDetails/>
             </section>
             <aside class="sidebar">
-                <ListItemSelect/>
                 <LeaderBoard/>
             </aside>
         </main>

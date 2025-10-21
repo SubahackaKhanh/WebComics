@@ -71,4 +71,4 @@ defineExpose({
 })
 </script>
 
-<style scoped src="@/css/footer.css"></style>
+<style scoped src="@/css/global/footer.css"></style>

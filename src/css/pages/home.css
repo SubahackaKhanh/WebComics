@@ -4,12 +4,14 @@
 
 .leaderboard{
     width: 25%;
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 .list{
     display:flex;
-    align-items: stretch;
+    align-items: flex-start;
     justify-content: start;
     flex-wrap: wrap;
-    height: 100%;
+    min-height: 80vh;
 }

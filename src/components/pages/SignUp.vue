@@ -17,4 +17,4 @@
   </div>
 </template>
 
-<style scoped src="@/css/signup.css"></style>
+<style scoped src="@/css/pages/signup.css"></style>

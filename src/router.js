@@ -7,11 +7,14 @@ import MainLayout from './layouts/MainLayout.vue'
 import Login from './components/pages/Login.vue'
 import ItemDetailsLayout from './layouts/ItemDetailsLayout.vue'
 import ItemDetails from './components/common/ItemDetails.vue'
+import Read from './components/pages/Read.vue'
 
 const routes = [
     { path: '/', component: MainLayout, children: [{ path: '', component: Home}, { path:'/genres', component: Genres }]},
     { path: '/signup', component: AuthLayout, children: [{ path: '', component: SignUp}, { path: '/login', component:Login}]},
-    { path: '/details', component: ItemDetailsLayout, children: [{ path: '', component: ItemDetails}]}
+    { path: '/details', component: ItemDetailsLayout, children: [{ path: '', component: ItemDetails}]},
+    { path: '/details/:idOrSlug', component: ItemDetailsLayout, children: [{ path: '', component: ItemDetails}]},
+    { path: '/read/:idOrSlug/:chapter?', component: Read },
 ]
 
 const router = createRouter({

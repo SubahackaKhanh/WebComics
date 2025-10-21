@@ -1,0 +1,34 @@
+.details-container{
+    border: 3px solid #99c9f9;
+    border-radius: 20px;
+    padding: 10px;
+    width: 50%;
+    height: auto;
+    overflow: auto;
+    color: #4a90e2;
+    margin: 10px;
+}
+
+
+.details-text{
+    color: #93c5fd;
+}
+
+.actions{
+    margin-top: 12px;
+}
+
+.btn-read{
+    border: 2px solid #99c9f9;
+    color: #60a5fa;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.btn-read:hover{
+    background: #0b1220;
+    box-shadow: 0 0 12px rgba(153, 201, 249, .45);
+}

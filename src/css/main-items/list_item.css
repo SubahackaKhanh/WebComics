@@ -10,6 +10,9 @@
   background-color: #cde4fc;
   margin-bottom: 26px;
   overflow: hidden;
+  height:80%;
+  min-height: 200px;
+  width: 100%;
 }
 .list-items-pagination{
   display: flex;
@@ -17,4 +20,21 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 26px;
+}
+
+.list-item-container{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.no-results {
+  padding: 20px;
+  text-align: center;
+  color: #4a90e2;
+  font-size: 16px;
 }

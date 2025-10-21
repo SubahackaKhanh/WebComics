@@ -16,4 +16,4 @@
     </div>
 </template>
 
-<style scoped src="@/css/login.css"></style>
+<style scoped src="@/css/pages/login.css"></style>

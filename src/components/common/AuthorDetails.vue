@@ -1,15 +1,35 @@
 <template>
   <div class="author-container">
-    <h2>Tác giả</h2>
-    <div v-for="item in authors" :key="item.id" class="author-card">
-      <h3>{{ item.name }}</h3>
-      <p>{{ item.bio }}</p>
-      <p><strong>Email:</strong> {{ item.email }}</p>
-    </div>
+    <!-- Nút tổng -->
+    <button class="author-toggle" @click="toggleOpen">
+      <span>Tác giả</span>
+      <span class="chevron" :class="{ open: isOpen }">▾</span>
+    </button>
+
+    <!-- Transition bọc cả danh sách -->
+    <Transition name="author-slide">
+      <div v-if="isOpen">
+        <AuthorItem
+          v-for="item in authors"
+          :key="item.id"
+          :author="item"
+          :worksByAuthor="worksByAuthor"
+        />
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import AuthorItem from '../child/AuthorItem.vue'
+
+const isOpen = ref(false) 
+
+function toggleOpen() {
+  isOpen.value = !isOpen.value
+}
+
 const authors = [
   {
     id: 1,
@@ -24,6 +44,14 @@ const authors = [
     email: 'one@example.com'
   }
 ]
+
+// Placeholder works list
+const worksByAuthor = [
+  { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
+  { name: 'Eyeshield 21', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
+  { name: 'Manga Sample A', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'HOT' },
+  { name: 'Manga Sample B', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'New' }
+]
 </script>
 
-<style scoped src="@/css/author_details.css"></style>
+<style scoped src="@/css/common/author_details.css"></style>

@@ -11,6 +11,12 @@
   position: relative;
 }
 
+/* Hide webkit clear/reveal/tooltips if any */
+.search-bar::-webkit-search-cancel-button,
+.search-bar::-webkit-search-decoration,
+.search-bar::-webkit-search-results-button,
+.search-bar::-webkit-search-results-decoration{ display: none; }
+
 .search-icon {
   width: 24px;
   height: 24px;
@@ -61,7 +67,14 @@
   border: 2px solid #99c9f9;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  max-height: calc(3 * 56px + 12px);
+  overflow-y: auto;
 }
+/* Themed scrollbar */
+.search-suggest::-webkit-scrollbar { width: 8px; }
+.search-suggest::-webkit-scrollbar-track { background: #e5f1ff; border-radius: 8px; }
+.search-suggest::-webkit-scrollbar-thumb { background-color: #99c9f9; border-radius: 8px; border: 2px solid #e5f1ff; }
+
 .search-suggest li{
   display: grid;
   grid-template-columns: 32px 1fr auto;
@@ -71,6 +84,7 @@
   border-radius: 8px;
   cursor: pointer;
   color: #2c3e50;
+  min-height: 56px;
 }
 .search-suggest li:hover,
 .search-suggest li.active{
@@ -111,9 +125,7 @@ input:-webkit-autofill {
 /* ==== MOBILE RESPONSIVE ==== */
 @media (max-width: 768px) {
   /* Mặc định ẩn input */
-  .search-bar {
-    display: none;
-  }
+  .search-bar { display: none; }
 
   /* Khi mở (click icon) thì hiện ra */
   .search-container.open .search-bar {
@@ -121,16 +133,12 @@ input:-webkit-autofill {
     width: 100%;
     animation: slideIn 0.3s ease;
   }
+
+  .search-suggest{ max-height: calc(50vh); }
 }
 
 /* ==== ANIMATION ==== */
 @keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
 }

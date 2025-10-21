@@ -46,24 +46,48 @@
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue'
+  import { ref, computed, watch } from 'vue'
   import { useRouter } from 'vue-router'
-  import { isSearchOpen, isLargeScreen, toggleSearch, useSearchBar, searchQuery } from '@/js/composables/useOpenSearchIcon'
+  import { useMangaSearch } from '@/js/composables/useMangaSearch'
+  import { isSearchOpen, isLargeScreen, toggleSearch, searchQuery } from '@/js/composables/useOpenSearchIcon'
   import { useClickOutside } from '@/js/composables/useClickOutside'
   import { useSuggestList } from '@/js/composables/useSuggestList'
-  const { filteredItems } = useSearchBar()
-  const router = useRouter()
+  import { debounce } from 'lodash'
 
+  const router = useRouter()
   const containerRef = ref(null)
   const inputRef = ref(null)
   const { isOpen, show, open, close, setHasResults } = useSuggestList()
 
   const activeIndex = ref(-1)
-  const limited = computed(() => filteredItems.value.slice(0, 8))
+  const { results, loading, searchManga } = useMangaSearch()
+ // Tạo debounce chỉ một lần
+  const debouncedSearch = debounce(async (query) => {
+    await searchManga(query)
+    setHasResults(results.value.length > 0)
+  }, 800) 
 
-  function onInput(){
+  watch(searchQuery, (newVal) => {
+    const trimmed = newVal.trim()
+
+    if (!trimmed) {
+      close()
+      results.value = []
+      setHasResults(false)
+      return
+    }
+
+    open()
+    debouncedSearch(trimmed)
+  })
+
+
+  const limited = computed(() => results.value.slice(0, 8))
+
+  function onInput() {
     const hasText = !!searchQuery.value.trim()
-    if (hasText){ open() } else { close() }
+    if (hasText) open()
+    else close()
     setHasResults(limited.value.length > 0)
     activeIndex.value = -1
   }
@@ -82,7 +106,7 @@
     close()
     searchQuery.value = item?.name || ''
     if (inputRef.value) inputRef.value.blur()
-    router.push('/details')
+    router.push(`/details/${item.id}`)
   }
 
   useClickOutside(containerRef, () => close())

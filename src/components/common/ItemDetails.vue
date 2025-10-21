@@ -1,7 +1,7 @@
 <template>
     <div class="details-container">
-        <h1> ONE PUNCH MAN</h1>         <!-- <h1> {{ items.name }}</h1> -->
-        <p class="details-text">{{ details }}</p>
+        <h1>{{ manga?.title || '' }}</h1>         <!-- <h1> {{ items.name }}</h1> -->
+        <p class="details-text">{{ manga?.synopsis || '' }}</p>
         <div class="actions">
             <button class="btn-read" @click="onClickRead">Read</button>
         </div>
@@ -12,11 +12,23 @@
 <script setup>
     import { useRoute, useRouter } from 'vue-router'
     import { buildReadPath } from '@/js/utils/itemNavigation'
-
+    import { ref, onMounted} from 'vue'
+    import { getMangaDetail } from '@/js/services/api/mangaApi'
+    
     const route = useRoute()
     const router = useRouter()
+    const manga = ref (null)
 
-    const details = "One Punch Man là một series anime/manga hành động – hài hước xoay quanh Saitama, một anh chàng hói bình thường nhưng lại sở hữu sức mạnh phi thường: hạ gục bất kỳ đối thủ nào chỉ với một cú đấm. Điều này khiến cuộc sống làm anh hùng của anh trở nên... nhàm chán. Không còn cảm giác hồi hộp hay thử thách, Saitama bắt đầu hành trình tìm kiếm một đối thủ xứng tầm."
+    onMounted(async () => {
+        const id = route.params.idOrSlug
+        if (id) {
+            try {
+                manga.value = await getMangaDetail(id)
+            } catch (err){
+                console.error("Error fetching manga details: ", err);
+            } 
+        }
+    })
 
     function onClickRead(){
         const idOrSlug = route.params.idOrSlug || 'one-punch-man'

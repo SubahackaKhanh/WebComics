@@ -1,18 +1,15 @@
 <template>
   <div class="author-container">
-    <!-- Nút tổng -->
     <button class="author-toggle" @click="toggleOpen">
       <span>Tác giả</span>
       <span class="chevron" :class="{ open: isOpen }">▾</span>
     </button>
-
-    <!-- Transition bọc cả danh sách -->
     <Transition name="author-slide">
       <div v-if="isOpen">
         <AuthorItem
-          v-for="item in authors"
-          :key="item.id"
-          :author="item"
+          v-for="author in authors"
+          :key="author.mal_id"
+          :author="author"
           :worksByAuthor="worksByAuthor"
         />
       </div>
@@ -21,37 +18,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { getMangaDetail, getMangaRelations } from '@/js/services/api/mangaApi'
 import AuthorItem from '../child/AuthorItem.vue'
 
-const isOpen = ref(false) 
+const isOpen = ref(false)
+const authors = ref([])
+const worksByAuthor = ref([])
+
+const route = useRoute()
+
+onMounted(async () => {
+  const id = route.params.idOrSlug
+  if (id) {
+    try {
+      const manga = await getMangaDetail(id)
+      authors.value = manga.authors || []  // Authors từ API: [{mal_id, name, role}]
+      
+      // Lấy related works nếu cần (nếu không, giữ mockup)
+      const relations = await getMangaRelations(id)
+      worksByAuthor.value = relations.map(rel => ({
+        name: rel.entry?.[0]?.name || 'Unknown',
+        image: rel.entry?.[0]?.images?.jpg?.image_url || '',
+        status: rel.relation || 'Related'
+      })) || []  // Nếu không có relations, worksByAuthor rỗng hoặc mockup
+    } catch (err) {
+      console.error('Error fetching authors:', err)
+    }
+  }
+})
 
 function toggleOpen() {
   isOpen.value = !isOpen.value
 }
-
-const authors = [
-  {
-    id: 1,
-    name: 'Yusuke Murata',
-    bio: 'Họa sĩ manga nổi tiếng với tác phẩm One Punch Man.',
-    email: 'murata@example.com'
-  },
-  {
-    id: 2,
-    name: 'ONE',
-    bio: 'Tác giả gốc của One Punch Man, nổi tiếng với phong cách hài hước.',
-    email: 'one@example.com'
-  }
-]
-
-// Placeholder works list
-const worksByAuthor = [
-  { name: 'One Punch Man', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Ongoing' },
-  { name: 'Eyeshield 21', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'Completed' },
-  { name: 'Manga Sample A', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'HOT' },
-  { name: 'Manga Sample B', image: 'https://picfiles.alphacoders.com/178/178909.jpg', status: 'New' }
-]
 </script>
 
 <style scoped src="@/css/common/author_details.css"></style>

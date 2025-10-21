@@ -1,63 +1,73 @@
-import axios from 'axios'
-import { useToast } from 'vue-toastification'
+import axios from 'axios';
+import { useToast } from 'vue-toastification';
 
-// Khởi tạo toast để hiển thị thông báo ra UI
-const toast = useToast()
+// Khởi tạo toast
+const toast = useToast();
 
 // Tạo instance riêng cho API
 export const api = axios.create({
-  baseURL: 'https://api.jikan.moe/v4', // API gốc (cố định)
-  timeout: 10000, // giới hạn thời gian tối đa 10 giây
-})
+  baseURL: 'https://api.jikan.moe/v4',
+  timeout: 10000,
+});
 
-// INTERCEPTOR REQUEST (CỔNG VÀO)
-// Chạy MỖI KHI gọi API (trước khi gửi đi)
-// Dùng để thêm token, header, hoặc log
+// Hàm retry với delay
+const retryRequest = async (config, retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await new Promise(resolve => setTimeout(resolve, delay)); // Delay trước khi retry
+      return await api.request(config);
+    } catch (err) {
+      if (err.response?.status !== 429 || i === retries - 1) {
+        throw err; // Ném lỗi nếu không phải 429 hoặc hết retry
+      }
+    }
+  }
+};
+
+// INTERCEPTOR REQUEST
 api.interceptors.request.use(
   (config) => {
-    // Giả sử sau này bạn có token thì thêm ở đây:
-    // const token = localStorage.getItem('access_token')
-    // if (token) config.headers.Authorization = `Bearer ${token}`
-
-    return config // return lại để request tiếp tục được gửi đi
+    return config;
   },
   (error) => {
-    // Lỗi xảy ra TRƯỚC khi request được gửi đi (ví dụ cấu hình sai)
-    console.error('Request Error:', error)
-    toast.error('Lỗi cấu hình yêu cầu, vui lòng thử lại.')
-    return Promise.reject(error) // Bắt buộc reject để dừng request
+    console.error('Request Error:', error);
+    toast.error('Lỗi cấu hình yêu cầu, vui lòng thử lại.');
+    return Promise.reject(error);
   }
-)
+);
 
-// INTERCEPTOR RESPONSE (CỔNG RA)
-// Chạy MỖI KHI server trả về dữ liệu (hoặc lỗi)
+// INTERCEPTOR RESPONSE
 api.interceptors.response.use(
   (response) => {
-    // Khi server trả về thành công (status code 200–299)
-    return response
+    return response;
   },
-  (error) => {
-    // Khi server trả về lỗi (status 4xx hoặc 5xx)
-    let message = 'Đã xảy ra lỗi không xác định.'
+  async (error) => {
+    let message = 'Đã xảy ra lỗi không xác định.';
 
     if (error.response) {
-      // Server có phản hồi (ví dụ: 404, 500,…)
-      const status = error.response.status
-      const serverMessage =
-        error.response.data?.message ||
-        error.response.data?.error ||
-        JSON.stringify(error.response.data)
-
-      message = `[${status}] ${serverMessage}`
+      const status = error.response.status;
+      if (status === 429) {
+        // Retry for 429 errors
+        try {
+          const response = await retryRequest(error.config, 3, 2000); // Retry 3 lần, delay 2s
+          return response;
+        } catch (retryError) {
+          message = '[429] Quá nhiều yêu cầu. Vui lòng thử lại sau vài giây.';
+        }
+      } else {
+        const serverMessage =
+          error.response.data?.message ||
+          error.response.data?.error ||
+          JSON.stringify(error.response.data);
+        message = `[${status}] ${serverMessage}`;
+      }
     } else if (error.request) {
-      // Không nhận được phản hồi (timeout, mất mạng,…)
-      message = 'Không nhận được phản hồi từ server. Kiểm tra kết nối mạng.'
+      message = 'Không nhận được phản hồi từ server. Kiểm tra kết nối mạng.';
     } else {
-      // Lỗi trong lúc xử lý yêu cầu (vd: lỗi cú pháp axios,…)
-      message = `Lỗi Axios: ${error.message}`
+      message = `Lỗi Axios: ${error.message}`;
     }
 
-    toast.error(message)
-    return Promise.reject(error) // Quan trọng: vẫn trả lỗi ra để phía gọi xử lý tiếp
+    toast.error(message);
+    return Promise.reject(error);
   }
-)
+);

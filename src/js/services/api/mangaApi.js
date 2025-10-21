@@ -1,4 +1,4 @@
-import { api } from '@/js/services/client'
+import { api } from '@/js/services/client';
 
 export async function getTopManga(page = 1, limit = 10) {
   try {
@@ -36,10 +36,14 @@ export async function getNewManga(limit = 15) {
   }
 }
 
-let cachedGenres = null; // Cache genres để dùng trong getListManga
+let cachedGenres = null;
 
 export async function getTagGenres() {
   try {
+    if (cachedGenres) {
+      console.log('Using cached genres:', cachedGenres);
+      return cachedGenres;
+    }
     const response = await api.get('/genres/manga');
     const allGenres = response.data.data || [];
     const uniqueGenresMap = new Map();
@@ -49,6 +53,7 @@ export async function getTagGenres() {
       }
     });
     cachedGenres = Array.from(uniqueGenresMap.values());
+    console.log('Fetched genres:', cachedGenres);
     return cachedGenres;
   } catch (err) {
     console.error('Failed to fetch genres: ', err);
@@ -58,17 +63,16 @@ export async function getTagGenres() {
 
 export async function getListManga(page = 1, limit = 25, genres = []) {
   try {
-    // Lấy danh sách genres nếu chưa cache
     if (!cachedGenres) {
       await getTagGenres();
     }
-    // Chuyển tên genres thành ID
     const genreIds = genres.length
       ? genres
           .map(name => cachedGenres.find(g => g.name === name)?.id)
           .filter(id => id)
           .join(',')
       : undefined;
+    console.log('Fetching manga with:', { page, limit, genres: genreIds });
 
     const response = await api.get('/manga', {
       params: {
@@ -76,7 +80,7 @@ export async function getListManga(page = 1, limit = 25, genres = []) {
         limit,
         order_by: 'title',
         sort: 'asc',
-        genres: genreIds // Dùng ID thay vì tên
+        genres: genreIds
       }
     });
     return {

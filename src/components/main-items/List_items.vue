@@ -1,6 +1,9 @@
 <template>
   <div class="list-item-container" ref="listContainerRef">
     <div class="list-items">
+      <div v-if="!paginatedItems.length" class="no-results">
+        Không tìm thấy manga phù hợp với tag đã chọn.
+      </div>
       <items-card
         v-for="(item, index) in paginatedItems"
         :key="index"
@@ -19,6 +22,7 @@ import Pagination from "@/components/common/Pagination.vue";
 import { usePaginationStore } from "@/js/module/pagination";
 import { computed, ref, onMounted, watch, nextTick } from "vue";
 import { getListManga } from "@/js/services/api/mangaApi";
+import { debounce } from 'lodash'; // Import lodash debounce
 
 const props = defineProps({
   selectedTags: {
@@ -30,7 +34,7 @@ const props = defineProps({
 const pagination = usePaginationStore();
 const listContainerRef = ref(null);
 const listHeight = ref(0);
-const items = ref([]); // Danh sách manga từ API
+const items = ref([]);
 
 // Hàm cập nhật chiều cao container
 const updateHeight = () => {
@@ -40,19 +44,25 @@ const updateHeight = () => {
 };
 
 const paginatedItems = computed(() => {
-  return items.value; // Bỏ lọc client-side vì API đã xử lý
+  console.log('Items:', items.value);
+  console.log('Selected tags:', props.selectedTags);
+  return items.value;
 });
 
-// Hàm gọi API để lấy danh sách manga
-const fetchManga = async () => {
+// Hàm gọi API với debounce
+const fetchManga = debounce(async () => {
   try {
+    items.value = []; // Reset trước khi fetch
+    console.log('Fetching manga with:', { page: pagination.currentPage, tags: props.selectedTags });
     const response = await getListManga(pagination.currentPage, pagination.pageSize, props.selectedTags);
     items.value = response.items;
     pagination.setTotalItems(response.pagination.totalItems);
+    await nextTick();
+    updateHeight();
   } catch (err) {
     console.error("Error fetching manga:", err);
   }
-};
+}, 500); // Debounce 500ms to respect Jikan rate limits
 
 // Gọi API khi component được mount
 onMounted(async () => {
@@ -73,14 +83,20 @@ onMounted(async () => {
 });
 
 // Theo dõi thay đổi trang và selectedTags
-watch([() => pagination.currentPage, () => props.selectedTags], async ([newPage, newTags], [oldPage, oldTags]) => {
+watch(() => props.selectedTags, async (newTags, oldTags) => {
   if (JSON.stringify(newTags) !== JSON.stringify(oldTags)) {
-    pagination.setPage(1); // Reset về trang 1 khi tags thay đổi
+    console.log('Tags changed:', newTags);
+    pagination.setPage(1); // Reset về trang 1
+    await fetchManga();
   }
-  await fetchManga();
-  await nextTick();
-  updateHeight();
-}, { deep: true }); // deep để so sánh mảng
+}, { deep: true });
+
+watch(() => pagination.currentPage, async (newPage, oldPage) => {
+  if (newPage !== oldPage) {
+    console.log('Page changed:', newPage);
+    await fetchManga();
+  }
+});
 
 defineExpose({
   listHeight,

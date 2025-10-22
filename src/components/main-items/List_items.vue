@@ -1,5 +1,6 @@
 <template>
   <div class="list-item-container" ref="listContainerRef">
+    <Loading v-if="isLoading"/>
     <div class="list-items">
       <div v-if="!paginatedItems.length" class="no-results">
         Không tìm thấy manga phù hợp với tag đã chọn.
@@ -23,6 +24,7 @@ import { usePaginationStore } from "@/js/module/pagination";
 import { computed, ref, onMounted, watch, nextTick } from "vue";
 import { getListManga } from "@/js/services/api/mangaApi";
 import { debounce } from 'lodash'; // Import lodash debounce
+import Loading from "../common/Loading.vue";
 
 const props = defineProps({
   selectedTags: {
@@ -35,6 +37,7 @@ const pagination = usePaginationStore();
 const listContainerRef = ref(null);
 const listHeight = ref(0);
 const items = ref([]);
+const isLoading = ref(false);
 
 // Hàm cập nhật chiều cao container
 const updateHeight = () => {
@@ -52,6 +55,7 @@ const paginatedItems = computed(() => {
 // Hàm gọi API với debounce
 const fetchManga = debounce(async () => {
   try {
+    isLoading.value= true;
     items.value = []; // Reset trước khi fetch
     console.log('Fetching manga with:', { page: pagination.currentPage, tags: props.selectedTags });
     const response = await getListManga(pagination.currentPage, pagination.pageSize, props.selectedTags);
@@ -61,6 +65,8 @@ const fetchManga = debounce(async () => {
     updateHeight();
   } catch (err) {
     console.error("Error fetching manga:", err);
+  } finally{
+    isLoading.value = false;
   }
 }, 500); // Debounce 500ms to respect Jikan rate limits
 

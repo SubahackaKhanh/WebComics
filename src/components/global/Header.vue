@@ -17,6 +17,7 @@
             <li><router-link to="/">Home</router-link></li>
             <li><router-link to="/genres">Genres</router-link></li>
             <li><router-link to="/signup">Sign Up</router-link></li>
+            <li><router-link to="/favorite">Favorite</router-link></li>
           </ul>
         </nav>
       </div>

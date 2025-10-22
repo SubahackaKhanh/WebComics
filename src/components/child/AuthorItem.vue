@@ -9,7 +9,7 @@
         <p class="author-bio">{{ author.bio }}</p>
         <p class="author-email"><strong>Email:</strong> {{ author.email }}</p>
         <HorizontalItems
-          :title="'Cùng tác giả'"
+          :title="'Same Author'"
           :items="worksByAuthor"
         />
       </div>

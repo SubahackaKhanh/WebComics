@@ -1,6 +1,6 @@
 <template>
   <Horizontal_items
-    :title="'Top New Manga'"
+    :title="'New Manga'"
     :fetchFunction="getNewManga"
   />
   <div class="list">

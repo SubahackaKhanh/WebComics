@@ -1,6 +1,8 @@
-<script setup></script>
-
 <template>
+    <Sidebar/>
 </template>
 
-<style scoped></style>
+<script setup>
+import Sidebar from './components/common/Sidebar.vue';
+
+</script>

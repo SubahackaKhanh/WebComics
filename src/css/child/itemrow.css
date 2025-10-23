@@ -36,22 +36,6 @@
   text-transform: capitalize;
 }
 
-/* Optional: style theo status */
-.item-chapter.ongoing {
-  color: green;
-}
-
-.item-chapter.completed {
-  color: blue;
-}
-
-.item-chapter.hiatus {
-  color: orange;
-}
-
-.item-chapter.hot {
-  color: red;
-}
 
 /* 🧩 Responsive part */
 @media (max-width: 900px) {

@@ -34,9 +34,9 @@ import { ref } from 'vue'
 
 const isOpen = ref(true)
 const menuItems = [
-  { name: 'Details' },
-  { name: 'History' },
-  { name: 'Analytics' },
+  { name: 'Details', icon:'D' },
+  { name: 'History', icon:'H' },
+  { name: 'Analytics', icon:'A' },
 ]
 
 function toggleSidebar() {

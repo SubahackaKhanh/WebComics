@@ -24,7 +24,31 @@
 
     <!-- Main content -->
     <main class="main-content">
-      <slot></slot>
+      <slot>
+        <div class="main-content-container">
+          <!-- Statistic Cards -->
+          <div class="stats-cards">
+            <div class="card" v-for="stat in stats" :key="stat.title">
+              <h3>{{ stat.title }}</h3>
+              <p>{{ stat.value }}</p>
+            </div>
+          </div>
+
+          <!-- Chart area -->
+          <div class="charts">
+            <div class="chart" id="visitsChart">
+              <h3>Visits Over Time</h3>
+              <!-- Bạn có thể dùng chart library như Chart.js hoặc ApexCharts -->
+              <p>Chart placeholder</p>
+            </div>
+
+            <div class="chart" id="usersChart">
+              <h3>Active Users</h3>
+              <p>Chart placeholder</p>
+            </div>
+          </div>
+        </div>
+      </slot>
     </main>
   </div>
 </template>
@@ -38,6 +62,13 @@ const menuItems = [
   { name: 'History', icon:'H' },
   { name: 'Analytics', icon:'A' },
 ]
+
+const stats = ref([
+  { title: 'Total Users', value: 1240 },
+  { title: 'New Today', value: 34 },
+  { title: 'Visits', value: 5320 },
+  { title: 'Revenue', value: '$12,340' },
+])
 
 function toggleSidebar() {
   isOpen.value = !isOpen.value

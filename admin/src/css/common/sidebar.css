@@ -40,6 +40,7 @@
   padding: 0.75rem 1rem;
   position: relative;
   cursor: pointer;
+  border: solid transparent;
 }
 
 .menu-item:hover {

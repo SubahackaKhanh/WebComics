@@ -37,7 +37,7 @@
 }
 
 
-/* 🧩 Responsive part */
+/* Responsive part */
 @media (max-width: 900px) {
   .item-pic img {
     width: 60px;

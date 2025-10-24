@@ -171,7 +171,7 @@
 }
 
 .card {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%); /* Subtle gradient for cards */
+  background: linear-gradient(135deg, #4f4f4f 0%, #565656 100%); /* Subtle gradient for cards */
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -186,7 +186,7 @@
 .card h3 {
   margin: 0 0 12px;
   font-size: 1.1rem;
-  color: #333;
+  color: #4a90e2;
   font-weight: 600;
 }
 
@@ -194,7 +194,7 @@
   font-size: 1.8rem;
   font-weight: bold;
   margin: 0;
-  color: #4a90e2; /* Accent color for values */
+  color: #80bbfe; /* Accent color for values */
 }
 
 .charts {
@@ -204,11 +204,12 @@
 }
 
 .chart {
-  background: #ffffff;
+  background: #4f4f4f;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
+  height: 300px;
 }
 
 .chart:hover {
@@ -218,7 +219,7 @@
 .chart h3 {
   margin: 0 0 15px;
   font-size: 1.2rem;
-  color: #333;
+  color: #4a90e2;
   font-weight: 600;
 }
 

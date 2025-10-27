@@ -1,16 +1,18 @@
 // src/js/stores/mangaStore.js
 import { defineStore } from 'pinia';
-import { getNewManga, getTopManga, getMangaDetail, getMangaRelations, getListManga, getListMangaByTags, searchManga, getTagGenres } from '@/js/services/api/mangaApi';
+import { getNewManga, getTopManga, getMangaDetail, getMangaRelations, getListManga, searchManga, getTagGenres } from '@/js/services/api/mangaApi';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export const useMangaStore = defineStore('manga', {
   state: () => ({
     newManga: null,
-    topManga: null,
-    mangaDetails: {}, // Cache theo id: { [idOrSlug]: data }
-    mangaRelations: {}, // Cache theo id
-    listManga: null,
-    listMangaByTags: {}, // Cache theo tag
-    searchResults: {}, // Cache theo query
+    topManga: {},
+    mangaDetails: {},
+    mangaRelations: {},
+    listManga: {},
+    searchResults: {},
     tagGenres: null,
     loading: false,
     error: null,
@@ -20,10 +22,13 @@ export const useMangaStore = defineStore('manga', {
       if (this.newManga) return this.newManga;
       this.loading = true;
       try {
-        this.newManga = await getNewManga(signal);
+        this.newManga = await getNewManga(15, signal);
         return this.newManga;
       } catch (err) {
-        this.error = err.message || 'Failed to fetch new manga';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to fetch new manga';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;
@@ -31,14 +36,16 @@ export const useMangaStore = defineStore('manga', {
     },
     async fetchTopManga(page = 1, limit = 10, signal) {
       const key = `${page}_${limit}`;
-      if (this.topManga?.[key]) return this.topManga[key];
+      if (this.topManga[key]) return this.topManga[key];
       this.loading = true;
       try {
-        this.topManga = this.topManga || {};
         this.topManga[key] = await getTopManga(page, limit, signal);
         return this.topManga[key];
       } catch (err) {
-        this.error = err.message || 'Failed to fetch top manga';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to fetch top manga';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;
@@ -51,7 +58,10 @@ export const useMangaStore = defineStore('manga', {
         this.mangaDetails[id] = await getMangaDetail(id, signal);
         return this.mangaDetails[id];
       } catch (err) {
-        this.error = err.message || 'Failed to fetch manga details';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to fetch manga details';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;
@@ -64,36 +74,27 @@ export const useMangaStore = defineStore('manga', {
         this.mangaRelations[id] = await getMangaRelations(id, signal);
         return this.mangaRelations[id];
       } catch (err) {
-        this.error = err.message || 'Failed to fetch manga relations';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to fetch manga relations';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;
       }
     },
-    async fetchListManga(page, limit, signal) {
-      const key = `${page}_${limit}`;
-      if (this.listManga?.[key]) return this.listManga[key];
+    async fetchListManga(page, limit, genres = [], signal) {
+      const key = `${page}_${limit}_${genres.join(',')}`;
+      if (this.listManga[key]) return this.listManga[key];
       this.loading = true;
       try {
-        this.listManga = this.listManga || {};
-        this.listManga[key] = await getListManga(page, limit, signal);
+        this.listManga[key] = await getListManga(page, limit, genres, signal);
         return this.listManga[key];
       } catch (err) {
-        this.error = err.message || 'Failed to fetch manga list';
-        throw err;
-      } finally {
-        this.loading = false;
-      }
-    },
-    async fetchListMangaByTags(tags, page, signal) {
-      const key = `${tags.join(',')}_${page}`;
-      if (this.listMangaByTags[key]) return this.listMangaByTags[key];
-      this.loading = true;
-      try {
-        this.listMangaByTags[key] = await getListMangaByTags(tags, page, signal);
-        return this.listMangaByTags[key];
-      } catch (err) {
-        this.error = err.message || 'Failed to fetch manga by tags';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to fetch manga list';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;
@@ -106,7 +107,10 @@ export const useMangaStore = defineStore('manga', {
         this.searchResults[query] = await searchManga(query, signal);
         return this.searchResults[query];
       } catch (err) {
-        this.error = err.message || 'Failed to search manga';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to search manga';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;
@@ -119,7 +123,10 @@ export const useMangaStore = defineStore('manga', {
         this.tagGenres = await getTagGenres(signal);
         return this.tagGenres;
       } catch (err) {
-        this.error = err.message || 'Failed to fetch tag genres';
+        if (err.name !== 'AbortError') {
+          this.error = err.message || 'Failed to fetch tag genres';
+          toast.error(this.error);
+        }
         throw err;
       } finally {
         this.loading = false;

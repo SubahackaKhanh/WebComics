@@ -107,6 +107,11 @@ input:-webkit-autofill {
   background-color: #4a90e2;
 }
 
+.signup-btn{
+  background-color: #4a90e2;
+  border: none;
+}
+
 .nav-btn:hover {
   transform: scale(1.03);
   opacity: 0.9;

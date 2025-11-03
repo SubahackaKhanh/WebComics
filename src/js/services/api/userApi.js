@@ -7,15 +7,29 @@ const api = axios.create({
   withCredentials: true, // gửi cookie phiên
 });
 
+// Lấy CSRF token từ backend
+const getCsrfToken = async () => {
+  const { data } = await api.get("/csrf-token");
+  return data.csrfToken;
+};
+
 export const signup = async (username, email, password, confirmPassword) => {
-  const response = await api.post("/user/signup", {
-    username, email, password, confirmPassword
-  });
+  const csrfToken = await getCsrfToken();
+  const response = await api.post(
+    "/user/signup",
+    { username, email, password, confirmPassword },
+    { headers: { "X-CSRF-Token": csrfToken } }
+  );
   return response.data;
 };
 
 export const login = async (identifier, password) => {
-  const response = await api.post("/user/login", { identifier, password });
+  const csrfToken = await getCsrfToken();
+  const response = await api.post(
+    "/user/login",
+    { identifier, password },
+    { headers: { "X-CSRF-Token": csrfToken } }
+  );
   return response.data;
 };
 
@@ -31,5 +45,10 @@ export const getFavorites = async () => {
 };
 
 export const logout = async () => {
-  await api.post("/user/logout");
+  const csrfToken = await getCsrfToken();
+  await api.post(
+    "/user/logout",
+    {},
+    { headers: { "X-CSRF-Token": csrfToken } }
+  );
 };

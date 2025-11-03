@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, watch } from 'vue'
+  import { ref, computed, watch, onBeforeUnmount } from 'vue'
   import { useRouter } from 'vue-router'
   import { useMangaSearch } from '@/js/composables/useMangaSearch'
   import { isSearchOpen, isLargeScreen, toggleSearch, searchQuery } from '@/js/composables/useOpenSearchIcon'
@@ -110,6 +110,10 @@
   }
 
   useClickOutside(containerRef, () => close())
+
+  onBeforeUnmount(() => {
+    debouncedSearch.cancel && debouncedSearch.cancel()
+  })
 </script>
 
 <style scoped src="@/css/main-items/searchbar.css"></style>

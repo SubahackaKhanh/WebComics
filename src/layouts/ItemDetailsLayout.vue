@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
@@ -43,11 +43,13 @@ import { getMangaDetail, getMangaRelations } from '@/js/services/api/mangaApi'
 const route = useRoute()
 const items = ref([])
 
+let abortController
 onMounted(async () => {
+  abortController = new AbortController()
   const id = route.params.idOrSlug
   if (id) {
     try {
-      const manga = await getMangaDetail(id)
+      const manga = await getMangaDetail(id, abortController.signal)
       items.value = [{
         mal_id: manga.mal_id,
         name: manga.title,
@@ -64,9 +66,15 @@ onMounted(async () => {
       //   status: rel.relation
       // }))
     } catch (err) {
-      console.error('Error fetching items:', err)
+      if (err?.name !== 'AbortError') {
+        console.error('Error fetching items:', err)
+      }
     }
   }
+})
+
+onBeforeUnmount(() => {
+  if (abortController) abortController.abort()
 })
 </script>
 

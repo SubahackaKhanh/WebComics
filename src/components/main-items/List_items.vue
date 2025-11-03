@@ -21,7 +21,7 @@
 import itemsCard from "../child/items-card.vue";
 import Pagination from "@/components/common/Pagination.vue";
 import { usePaginationStore } from "@/js/module/pagination";
-import { computed, ref, onMounted, watch, nextTick } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount, watch, nextTick } from "vue";
 import { getListManga } from "@/js/services/api/mangaApi";
 import { debounce } from 'lodash'; // Import lodash debounce
 import Loading from "../common/Loading.vue";
@@ -53,18 +53,24 @@ const paginatedItems = computed(() => {
 });
 
 // Hàm gọi API với debounce
+let abortController
 const fetchManga = debounce(async () => {
   try {
     isLoading.value= true;
     items.value = []; // Reset trước khi fetch
     console.log('Fetching manga with:', { page: pagination.currentPage, tags: props.selectedTags });
-    const response = await getListManga(pagination.currentPage, pagination.pageSize, props.selectedTags);
+    // Hủy request cũ nếu có
+    if (abortController) abortController.abort()
+    abortController = new AbortController()
+    const response = await getListManga(pagination.currentPage, pagination.pageSize, props.selectedTags, abortController.signal);
     items.value = response.items;
     pagination.setTotalItems(response.pagination.totalItems);
     await nextTick();
     updateHeight();
   } catch (err) {
-    console.error("Error fetching manga:", err);
+    if (err?.name !== 'AbortError') {
+      console.error("Error fetching manga:", err);
+    }
   } finally{
     isLoading.value = false;
   }
@@ -79,10 +85,11 @@ onMounted(async () => {
     if (img.complete) {
       loaded++;
     } else {
-      img.addEventListener("load", () => {
+      const onLoad = () => {
         loaded++;
         if (loaded === imgs.length) updateHeight();
-      });
+      };
+      img.addEventListener("load", onLoad, { once: true });
     }
   });
   updateHeight();
@@ -102,6 +109,12 @@ watch(() => pagination.currentPage, async (newPage, oldPage) => {
     console.log('Page changed:', newPage);
     await fetchManga();
   }
+});
+
+onBeforeUnmount(() => {
+  // Hủy debounce và request đang chạy
+  fetchManga.cancel && fetchManga.cancel()
+  if (abortController) abortController.abort()
 });
 
 defineExpose({

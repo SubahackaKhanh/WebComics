@@ -26,7 +26,7 @@ const loading = useLoadingStore();
 const route = useRoute();
 
 onMounted(async () => {
-  await new Promise(resolve => setTimeout(resolve, 800)); // Giả lập fetch
+  await new Promise(resolve => setTimeout(resolve, 800)); 
   loading.hide();
 });
 </script>

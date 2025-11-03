@@ -22,7 +22,7 @@
 <script setup>
 import itemsCard from '../child/items-card.vue'
 import { useScroll } from '@/js/composables/use_Scroll_Horizontal_item'
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { getNewManga } from '@/js/services/api/mangaApi'
 
 const { scrollContainer, scrollLeft, scrollRight} = useScroll()
@@ -32,14 +32,22 @@ const props = defineProps({
   fetchFunction: { type: Function, required: true }
 })
 
-const items = ref ([])
+const items = ref([])
 
-onMounted(async () =>{
-    try {
-      items.value = await props.fetchFunction()
-    } catch (err){
-      console.error('Failed to load data:', err);
+let abortController
+onMounted(async () => {
+  abortController = new AbortController()
+  try {
+    items.value = await props.fetchFunction(undefined, abortController.signal)
+  } catch (err) {
+    if (err?.name !== 'AbortError') {
+      console.error('Failed to load data:', err)
     }
+  }
+})
+
+onBeforeUnmount(() => {
+  if (abortController) abortController.abort()
 })
 
 const itemsToRender = computed(() => items.value)

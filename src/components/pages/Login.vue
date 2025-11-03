@@ -22,7 +22,7 @@
       <div class="login-buttons">
         <router-link to="/" class="nav-btn home-btn">Home</router-link>
         <router-link to="/signup" class="nav-btn signup-btn">SignUp</router-link>
-        <button class="nav-btn login-btn" @click="handleLogin">Login</button>
+        <button class="nav-btn signup-btn" @click="handleLogin">Submit</button>
       </div>
     </div>
   </div>

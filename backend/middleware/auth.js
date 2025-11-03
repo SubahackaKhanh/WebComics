@@ -2,28 +2,24 @@ const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
   try {
-    // Lấy token từ header Authorization: Bearer <token>
-    const authHeader = req.headers.authorization;
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ 
-        message: "Không có token, truy cập bị từ chối" 
-      });
+    // Ưu tiên session-based auth
+    if (req.session && req.session.user) {
+      req.user = req.session.user; // { userId, email, username }
+      return next();
     }
 
-    const token = authHeader.split(" ")[1]; // Lấy token sau "Bearer "
+    // Fallback: JWT từ header (để tương thích ngược)
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.split(" ")[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      return next();
+    }
 
-    // Xác thực token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Gắn thông tin user vào req để controller sử dụng
-    req.user = decoded; // { userId, email, username }
-    
-    next(); // Cho phép tiếp tục xử lý request
+    return res.status(401).json({ message: "Chưa đăng nhập" });
   } catch (error) {
-    res.status(401).json({ 
-      message: "Token không hợp lệ hoặc đã hết hạn" 
-    });
+    return res.status(401).json({ message: "Phiên đăng nhập không hợp lệ hoặc đã hết hạn" });
   }
 };
 

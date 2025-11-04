@@ -36,6 +36,14 @@ exports.signup = async (req, res) => {
     
     const userId = await User.createUser(username, email, hashedPassword);
 
+    // Regenerate session để tránh session fixation
+    await new Promise((resolve, reject) => {
+      req.session.regenerate((err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
     // Tạo session đăng nhập ngay sau khi đăng ký
     req.session.user = { 
       userId, 
@@ -81,6 +89,14 @@ exports.login = async (req, res) => {
         message: "Email/username hoặc mật khẩu không đúng" 
       });
     }
+
+    // Regenerate session để tránh session fixation
+    await new Promise((resolve, reject) => {
+      req.session.regenerate((err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
 
     // Tạo session
     req.session.user = {

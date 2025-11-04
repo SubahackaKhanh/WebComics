@@ -42,7 +42,7 @@ app.use(express.json());
 
 // Session store in MySQL
 const MySQLStore = MySQLStoreFactory(session);
-const sessionStore = new MySQLStore({}, pool.promise());
+const sessionStore = new MySQLStore({}, pool);
 
 app.use(
   session({

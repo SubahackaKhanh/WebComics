@@ -30,6 +30,14 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+const signupLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3, // 3 requests per hour
+  message: "Quá nhiều lần thử đăng ký, vui lòng thử lại sau.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // 100 requests per windowMs
@@ -48,12 +56,23 @@ app.use(
 );
 
 // Security middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"], // Cho phép inline styles nếu cần
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"], // Cho phép images từ HTTPS
+      },
+    },
+  })
+);
 
 // Body parsing middleware
 app.use(cookieParser());
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
 // Apply general rate limiting
 app.use(generalLimiter);
@@ -100,8 +119,9 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "OK", message: "Server is running" });
 });
 
-// Apply login rate limiting BEFORE mounting auth routes
+// Apply rate limiting BEFORE mounting auth routes
 app.use("/auth/login", loginLimiter);
+app.use("/auth/signup", signupLimiter);
 
 // Authentication routes (public)
 app.use("/auth", authRoutes);
@@ -139,5 +159,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
+  console.log(` Server đang chạy tại http://localhost:${PORT}`);
 });

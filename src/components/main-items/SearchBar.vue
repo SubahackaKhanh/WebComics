@@ -40,7 +40,7 @@
         <span class="name">{{ item.name }}</span>
         <span class="badge" :class="item.status?.toLowerCase()">{{ item.status }}</span>
       </li>
-      <li v-if="!limited.length" class="empty">Không có kết quả</li>
+      <li v-if="!limited.length" class="empty">No Data</li>
     </ul>
   </div>
 </template>

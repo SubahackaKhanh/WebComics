@@ -11,7 +11,8 @@
       <!-- Hamburger + Nav -->
       <div class="header-menu">
         <button class="hamburger" @click="toggleMenu">&#9776;</button>
-
+        
+        <!-- When user login -->
         <nav :class="{ open: isMenuOpen }" v-if="auth.isAuthenticated">
           <ul class="nav-list">
             <li><router-link to="/">Home</router-link></li>
@@ -23,7 +24,7 @@
           </ul>
         </nav>
 
-        <!-- Khi chưa đăng nhập -->
+        <!-- When user didn't login -->
         <nav :class="{ open: isMenuOpen }" v-else>
           <ul class="nav-list">
             <li><router-link to="/">Home</router-link></li>

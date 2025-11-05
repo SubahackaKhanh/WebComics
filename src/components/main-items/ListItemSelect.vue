@@ -2,7 +2,7 @@
   <div class="chapter-list">
     <div v-for="chapter in sortedChapters" :key="chapter.id" class="chapter-item">
       <h3>{{ chapter.title }}</h3>
-      <p class="date">Ngày đăng: {{ formatDate(chapter.date) }}</p>
+      <p class="date">Date: {{ formatDate(chapter.date) }}</p>
     </div>
   </div>
 </template>

@@ -31,7 +31,7 @@ onMounted(async () =>{
     items.value = data
     console.log('Top Manga: ', data);
   } catch (err){
-    error.value = 'Không thể tải leaderboard'
+    error.value = 'Can not load leaderboard'
     console.error(err);
   } finally {
     loading.value = false

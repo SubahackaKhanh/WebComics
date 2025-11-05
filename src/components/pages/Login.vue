@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import { login } from "@/js/services/api/userApi"; // Import từ userApi.js
+import { login } from "@/js/services/api/userApi";
+import { useAuthStore } from "@/js/stores/authStore";
 
 export default {
   data() {
@@ -43,8 +44,10 @@ export default {
     async handleLogin() {
       try {
         const response = await login(this.identifier, this.password);
-        alert(response.message); // Thông báo đăng nhập thành công
-        this.$router.push("/"); // Chuyển hướng đến trang chủ
+        const auth = useAuthStore();
+        await auth.checkAuth();
+        alert(response.message);
+        this.$router.push("/");
       } catch (error) {
         this.error = error.message || "Đăng nhập thất bại";
       }

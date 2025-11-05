@@ -16,7 +16,7 @@ const getCsrfToken = async () => {
 export const signup = async (username, email, password, confirmPassword) => {
   const csrfToken = await getCsrfToken();
   const response = await api.post(
-    "/user/signup",
+    "/auth/signup",
     { username, email, password, confirmPassword },
     { headers: { "X-CSRF-Token": csrfToken } }
   );
@@ -26,7 +26,7 @@ export const signup = async (username, email, password, confirmPassword) => {
 export const login = async (identifier, password) => {
   const csrfToken = await getCsrfToken();
   const response = await api.post(
-    "/user/login",
+    "/auth/login",
     { identifier, password },
     { headers: { "X-CSRF-Token": csrfToken } }
   );
@@ -47,7 +47,7 @@ export const getFavorites = async () => {
 export const logout = async () => {
   const csrfToken = await getCsrfToken();
   await api.post(
-    "/user/logout",
+    "/auth/logout",
     {},
     { headers: { "X-CSRF-Token": csrfToken } }
   );

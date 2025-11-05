@@ -5,6 +5,7 @@ import App from './App.vue';
 import router from './router';
 import { createPinia } from 'pinia';
 import { useLoadingStore } from '@/js/composables/useLoadingStore';
+import { useAuthStore } from '@/js/stores/authStore';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -13,6 +14,8 @@ app.use(pinia);
 app.use(router);
 
 const loading = useLoadingStore(pinia);
+const auth = useAuthStore(pinia);
+auth.checkAuth();
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.disableLoading) loading.show();

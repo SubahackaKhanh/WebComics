@@ -97,17 +97,17 @@ app.use(
   })
 );
 
-// CSRF protection (uses cookie token)
-// Skip CSRF for GET requests and CSRF token endpoint
-const csrfProtection = csrf({ cookie: true });
-
-app.use((req, res, next) => {
-  // Skip CSRF for GET requests and CSRF token endpoint
-  if (req.method === "GET" || req.path === "/csrf-token") {
-    return next();
-  }
-  csrfProtection(req, res, next);
+// CSRF protection (attach middleware globally, but ignore safe methods)
+const csrfProtection = csrf({
+  cookie: {
+    httpOnly: true,
+    sameSite: process.env.COOKIE_SAMESITE || "lax",
+    secure: process.env.COOKIE_SECURE === "1",
+  },
+  ignoreMethods: ["GET", "HEAD", "OPTIONS"],
 });
+
+app.use(csrfProtection);
 
 // Endpoint to provide CSRF token to the frontend
 app.get("/csrf-token", (req, res) => {

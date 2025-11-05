@@ -11,7 +11,7 @@
         :item="item"
       />
       <div v-if="!itemsToRender.length" class="empty-state">
-        Không có dữ liệu 
+        No Data 
       </div>
     </div>
 

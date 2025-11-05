@@ -3,7 +3,7 @@
     <Loading v-if="isLoading"/>
     <div class="list-items">
       <div v-if="!paginatedItems.length" class="no-results">
-        Không tìm thấy manga phù hợp với tag đã chọn.
+         There is no comic with selected tags
       </div>
       <items-card
         v-for="(item, index) in paginatedItems"

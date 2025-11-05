@@ -49,7 +49,7 @@ export default {
         alert(response.message);
         this.$router.push("/");
       } catch (error) {
-        this.error = error.message || "Đăng nhập thất bại";
+        this.error = error.message || "Login fail";
       }
     },
   },

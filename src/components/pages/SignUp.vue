@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { signup } from "@/js/services/api/userApi"; // Import từ userApi.js
+import { signup } from "@/js/services/api/userApi"; // Import from userApi.js
 
 export default {
   data() {
@@ -65,10 +65,10 @@ export default {
           this.password,
           this.confirmPassword
         );
-        alert(response.message); // Thông báo đăng ký thành công
-        this.$router.push("/login"); // Chuyển hướng đến trang login
+        alert(response.message); // success alert
+        this.$router.push("/login"); // nav to login
       } catch (error) {
-        this.error = error.message || "Đăng ký thất bại";
+        this.error = error.message || "SignUp Fail";
       }
     },
   },

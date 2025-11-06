@@ -356,7 +356,7 @@
     scrollbar-color: #99c9f9 transparent;
 }
 
-/* Global mobile constraints để ngăn vỡ UI */
+/* Global mobile constraints*/
 @media (max-width: 768px) {
     .item-details-layout * {
         max-width: 100%;

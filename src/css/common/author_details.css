@@ -79,7 +79,7 @@
   overflow: hidden;
 }
 
-/* Mobile constraints để ngăn vỡ UI */
+/* Mobile constraints */
 @media (max-width: 768px) {
   .author-container {
     padding: 0.5rem;

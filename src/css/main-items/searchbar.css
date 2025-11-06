@@ -1,4 +1,3 @@
-/* ==== VÙNG CHUNG ==== */
 .search-container {
   display: flex;
   align-items: center;
@@ -124,10 +123,8 @@ input:-webkit-autofill {
 
 /* ==== MOBILE RESPONSIVE ==== */
 @media (max-width: 768px) {
-  /* Mặc định ẩn input */
   .search-bar { display: none; }
 
-  /* Khi mở (click icon) thì hiện ra */
   .search-container.open .search-bar {
     display: block;
     width: 100%;

@@ -72,33 +72,32 @@ header {
 /* Responsive */
 @media (max-width: 768px) {
   header {
-    position: relative; /* bắt buộc để absolute hoạt động đối với search */
+    position: relative; 
   }
 
   .header-items {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: nowrap; /* KHÔNG cho xuống hàng */
+    flex-wrap: nowrap; 
     width: 100%;
     gap: 8px;
   }
 
-  /* logo & menu luôn trên layer trên để không bị che */
+  
   .logo,
   .header-menu {
     z-index: 2;
     flex: 0 0 auto;
   }
 
-  /* search ở giữa tuyệt đối — chỉnh width để tránh chồng lên 2 bên */
+  
   .search-wrapper {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    /* chọn width nhỏ hơn màn (hoặc reserve khoảng cho logo+menu): */
     width: min(64%, calc(100% - 140px));
-    max-width: 420px; /* tùy bạn chỉnh */
+    max-width: 420px;
     margin: 0;
     z-index: 1;
   } 
@@ -116,7 +115,7 @@ header {
   nav { 
     display: none;
     position: absolute;
-    top: 100%; /* xuất hiện ngay dưới header */
+    top: 100%;
     right: 0;
     background-color: rgba(205, 228, 252, 0.98);
     border: 2px solid #95c7f9;
@@ -124,7 +123,7 @@ header {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     padding: 12px 0;
     backdrop-filter: blur(8px);
-    z-index: 99; /* cao hơn mọi thứ khác */
+    z-index: 99; 
     animation: dropdownFade 0.25s ease forwards;
   }
 

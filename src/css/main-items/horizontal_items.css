@@ -8,7 +8,6 @@
   padding: 16px 0;
 }
 
-/* Vùng chứa các items */
 .grid-items {
   display: flex;
   gap: 16px;
@@ -25,7 +24,6 @@
   display: none;
 }
 
-/* Nút mũi tên */
 .scroll-btn {
   position: absolute;
   top: 50%;
@@ -57,7 +55,6 @@
   right: 8px;
 }
 
-/* Giới hạn kích thước item */
 .grid-items .items-card {
   flex: 0 0 180px;
   scroll-snap-align: start;
@@ -74,11 +71,8 @@
   margin-bottom: 1rem;
 }
 
-/* ============================= */
-/* 📱 Responsive phần quan trọng */
-/* ============================= */
 
-/* Tablet */
+/* Responsive */
 @media (max-width: 992px) {
   .grid-items {
     padding: 16px 32px;
@@ -115,7 +109,6 @@
     background-color: #d9ecff;
   }
 
-  /* Ẩn nút mũi tên nếu màn hình quá nhỏ */
   .scroll-btn.left,
   .scroll-btn.right {
     display: none;

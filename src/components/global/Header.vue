@@ -18,9 +18,7 @@
             <li><router-link to="/">Home</router-link></li>
             <li><router-link to="/genres">Genres</router-link></li>
             <li><router-link to="/favorite">Favorite</router-link></li>
-            <li>
-              <button @click="logout" class="logout-btn">Logout</button>
-            </li>
+            <li><router-link to="/" @click.prevent="logout">Logout</router-link></li>
           </ul>
         </nav>
 
@@ -38,6 +36,7 @@
       <!-- Search -->
       <div class="search-wrapper">
         <SearchBar />
+        <UserAvatar/>
       </div>
     </div>
   </header>
@@ -48,6 +47,7 @@ import SearchBar from '../main-items/SearchBar.vue';
 import { isMenuOpen, toggleMenu } from '@/js/MenuIcon';
 import { useAuthStore } from '@/js/stores/authStore';
 import { useRouter } from 'vue-router';
+import UserAvatar from '../child/UserAvatar.vue';
 
 const auth = useAuthStore()
 const router = useRouter()

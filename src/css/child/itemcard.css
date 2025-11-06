@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-/* Mỗi item-card phải là relative để chứa overlay */
+
 .items-card {
   position: relative;
   overflow: hidden;

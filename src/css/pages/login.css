@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: #cde4fc; /* thêm nền sáng nhẹ để form nổi lên */
+  background: #cde4fc; 
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -53,10 +53,10 @@
 .user-input:hover,
 .pass-input:hover{
     box-shadow:
-        0 0 0 4px rgba(74, 144, 226, 0.2),   /* viền mờ gần */
-        0 0 20px rgba(74, 144, 226, 0.4),    /* glow trung bình */
-        0 0 40px rgba(74, 144, 226, 0.3),    /* glow xa hơn */
-        0 0 80px rgba(74, 144, 226, 0.2);    /* glow siêu rộng */
+        0 0 0 4px rgba(74, 144, 226, 0.2),   
+        0 0 20px rgba(74, 144, 226, 0.4),   
+        0 0 40px rgba(74, 144, 226, 0.3),    
+        0 0 80px rgba(74, 144, 226, 0.2);    
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
@@ -113,11 +113,11 @@ input:-webkit-autofill {
   opacity: 0.9;
 }
 
-/* Responsive cho điện thoại */
+/* Responsive */
 @media (max-width: 480px) {
   .login-container {
     padding: 1rem;
-    height: auto; /* tránh cố định 100vh khiến bị tràn */
+    height: auto; 
   }
 
   .login-form {

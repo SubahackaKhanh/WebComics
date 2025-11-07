@@ -11,7 +11,7 @@
         <p
           style="letter-spacing: 1px; font-weight: 600;   padding: 0.625rem 0rem 0.625rem 0.825rem;"
         >
-          wihtyzu
+          {{ displayName }}
         </p>
 
         <svg height="32" width="32" viewBox="0 0 1024 1024" class="icon">
@@ -63,7 +63,7 @@
 
       <div class="popup-main">
         <ul class="list-box">
-          <li class="button item">Withyzu's zone</li>
+          <li class="button item">{{ displayName }}'s zone</li>
           <li class="button item">Manage Blog</li>
           <li class="button item">Manage Thinks</li>
           <hr />
@@ -72,7 +72,7 @@
           <li class="button item">Friendship Links</li>
           <li class="button item">Setting</li>
           <hr />
-          <li class="button item quit">Quit</li>
+          <li class="button item quit" @click="handleLogout">Logout</li>
         </ul>
       </div>
     </div>
@@ -80,3 +80,21 @@
 </template>
 
 <style scoped src="/src/css/child/userAvatar.css"></style>
+
+<script setup>
+  import { computed } from 'vue'
+  import { useAuthStore } from '@/js/stores/authStore';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+  const auth = useAuthStore();
+
+  const displayName = computed(() => {
+    return auth.user?.username || auth.user?.email || 'Guest'
+  })
+
+  const handleLogout = async () =>{
+    await auth.logout()
+    router.push('/')
+  }
+</script>

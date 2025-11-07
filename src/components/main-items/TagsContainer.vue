@@ -30,9 +30,13 @@ import { ref, onMounted, computed } from 'vue';
 import { getTagGenres } from '@/js/services/api/mangaApi';
 
 const props = defineProps({
+  genres: {
+    type: Array,
+    default: () => []
+  },
   selectedTags: {
     type: Array,
-    default: () => []   
+    default: () => []
   }
 });
 

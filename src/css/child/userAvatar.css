@@ -89,6 +89,7 @@ hr {
    transition: 0.4s;
    overflow: hidden;
    height: var(--popup-main-h);
+   z-index: 10;
 }
 
 .popup:focus .popup-main {

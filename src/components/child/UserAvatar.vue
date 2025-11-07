@@ -11,7 +11,7 @@
         <p
           style="letter-spacing: 1px; font-weight: 600;   padding: 0.625rem 0rem 0.625rem 0.825rem;"
         >
-          wihtyzu
+          {{ displayName }}
         </p>
 
         <svg height="32" width="32" viewBox="0 0 1024 1024" class="icon">
@@ -61,22 +61,48 @@
         </svg>
       </div>
 
-      <div class="popup-main">
+      <div class="popup-main" v-if="auth.isAuthenticated">
         <ul class="list-box">
-          <li class="button item">Withyzu's zone</li>
-          <li class="button item">Manage Blog</li>
-          <li class="button item">Manage Thinks</li>
+          <li class="button item">{{ displayName }}'s zone</li>
+          <li class="button item">Liked Manga List</li>
+          <li class="button item">Your favorite </li>
           <hr />
-          <li class="button item">Manages Message</li>
-          <li class="button item">Recent Visitor</li>
+          <li class="button item">Notifications</li>
+          <li class="button item">Recent Read</li>
           <li class="button item">Friendship Links</li>
-          <li class="button item">Setting</li>
+          <li class="button item">Theme</li>
+          <li class="button item" @click="handleLogout">Logout</li>
           <hr />
-          <li class="button item quit">Quit</li>
         </ul>
       </div>
+
+      <div v-else class="popup-main">
+        <ul class="list-box">
+          <li class="button item" @click="router.push('/login')">Login</li>
+          <li class="button item" @click="router.push('/signup')">Signup</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </template>
 
 <style scoped src="/src/css/child/userAvatar.css"></style>
+
+<script setup>
+  import { computed } from 'vue'
+  import { useAuthStore } from '@/js/stores/authStore';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+  const auth = useAuthStore();
+
+  const displayName = computed(() => {
+    return auth.user?.username || auth.user?.email || 'Guest'
+  })
+
+  const handleLogout = async () =>{
+    await auth.logout()
+    router.push('/')
+  }
+</script>

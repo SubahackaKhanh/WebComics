@@ -9,7 +9,7 @@
     >
       <div class="popup-header">
         <p
-          style="letter-spacing: 1px; font-weight: 600;   padding: 0.625rem 0rem 0.625rem 0.825rem;"
+          style="letter-spacing: 1px; font-weight: 600;   padding: 0.625rem 0rem 0.625rem 0.825rem; color: #4a90e2"
         >
           {{ displayName }}
         </p>

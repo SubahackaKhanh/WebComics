@@ -3,48 +3,48 @@ const router = express.Router();
 const authController = require("../controller/authController");
 const { check } = require("express-validator");
 
-// Route đăng ký
+// Route signup
 router.post(
   "/signup",
   [
     check("username")
       .trim()
-      .isLength({ min: 3 })
-      .withMessage("Tên phải từ 3 ký tự trở lên")
+      .isLength({ min: 3 , max:20})
+      .withMessage("Name must be from 3 to 20 characters")
       .matches(/^[a-zA-Z0-9_]+$/)
-      .withMessage("Tên chỉ được chứa chữ cái, số và dấu gạch dưới"),
+      .withMessage("Name can only contain letters, numbers, and underscores."),
     check("email")
       .isEmail()
-      .withMessage("Email không hợp lệ")
+      .withMessage("Invalid Email")
       .normalizeEmail(),
     check("password")
-      .isLength({ min: 8 })
-      .withMessage("Mật khẩu tối thiểu 8 ký tự")
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
-      .withMessage("Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số"),
+      .isLength({ min: 8, max: 64})
+      .withMessage("Password must be between 8 and 64 characters long")
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).+$/)
+      .withMessage("Password must include at least one uppercase letter, one lowercase letter, one number, and one special character."),
     check("confirmPassword")
       .custom((val, { req }) => val === req.body.password)
-      .withMessage("Mật khẩu xác nhận không khớp"),
+      .withMessage("Password do not match."),
   ],
   authController.signup
 );
 
-// Route đăng nhập
+// Route login
 router.post(
   "/login",
   [
     check("identifier")
       .trim()
       .notEmpty()
-      .withMessage("Vui lòng nhập email hoặc username"),
+      .withMessage("Please enter your username or email"),
     check("password")
       .notEmpty()
-      .withMessage("Vui lòng nhập mật khẩu"),
+      .withMessage("Please enter your password"),
   ],
   authController.login
 );
 
-// Route đăng xuất (không cần auth middleware vì có thể logout khi chưa đăng nhập)
+// Route logout (No auth middleware cuz can using logout even didn't login)
 router.post("/logout", authController.logout);
 
 module.exports = router;

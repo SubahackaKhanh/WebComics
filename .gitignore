@@ -31,3 +31,4 @@ coverage
 
 # Environment files
 backend/.env
+.env

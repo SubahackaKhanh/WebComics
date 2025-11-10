@@ -1,54 +1,49 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // gửi cookie phiên
+  withCredentials: true, // send cookie
 });
 
-// Lấy CSRF token từ backend
-const getCsrfToken = async () => {
-  const { data } = await api.get("/csrf-token");
-  return data.csrfToken;
-};
+let csrfToken = null;
 
-export const signup = async (username, email, password, confirmPassword) => {
-  const csrfToken = await getCsrfToken();
-  const response = await api.post(
-    "/auth/signup",
-    { username, email, password, confirmPassword },
-    { headers: { "X-CSRF-Token": csrfToken } }
-  );
-  return response.data;
-};
+export const initCSRF = async () => {
+  try {
+    const { data } = await api.get("/csrf-token");
+    csrfToken = data.csrfToken;
+    api.defaults.headers["X-CSRF-Token"] = csrfToken;
+  } catch (err) {
+    console.error("An error occurred while initializing the CSRF token: ", err?.response?.data || err.message);
+  }
+}
 
-export const login = async (identifier, password) => {
-  const csrfToken = await getCsrfToken();
-  const response = await api.post(
-    "/auth/login",
-    { identifier, password },
-    { headers: { "X-CSRF-Token": csrfToken } }
-  );
-  return response.data;
-};
+api.interceptors.request.use(async (config) => {
+  if (["post", "put", "patch", "delete"].includes(config.method?.toLowerCase())){
+    if(!csrfToken){
+      const { data } = await api.get("/csrf-token");
+      csrfToken = data.csrfToken;
+      api.defaults.headers["X-CSRF-Token"] = csrfToken;
+    }
+    config.headers["X-CSRF-Token"] = csrfToken;
+  }
+  return config;
+});
 
-// Protected API calls
-export const getProfile = async () => {
-  const response = await api.get("/user/profile");
-  return response.data;
-};
+export default api;
 
-export const getFavorites = async () => {
-  const response = await api.get("/favorite");
-  return response.data;
-};
+export const signup = (username, email, password, confirmPassword) =>
+  api.post("/auth/signup", { username, email, password, confirmPassword });
 
-export const logout = async () => {
-  const csrfToken = await getCsrfToken();
-  await api.post(
-    "/auth/logout",
-    {},
-    { headers: { "X-CSRF-Token": csrfToken } }
-  );
-};
+export const login = (identifier, password) =>
+  api.post("/auth/login", { identifier, password });
+
+export const getProfile = () =>
+  api.get("/user/profile");
+
+export const getFavorites = () =>
+  api.get("/favorite");
+
+export const logout = () =>
+  api.post("/auth/logout");

@@ -61,9 +61,10 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"], // Cho phép inline styles nếu cần
+        styleSrc: ["'self'", "'unsafe-inline'"], // allow inline styles 
         scriptSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "https:"], // Cho phép images từ HTTPS
+        imgSrc: ["'self'", "data:", "https:"], // allow images from HTTPS
+        connectSrc: ["'self'", allowedOrigin], // allow fetch api from fe
       },
     },
   })
@@ -132,7 +133,7 @@ app.use("/user", userRoutes);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ message: "Không tìm thấy route" });
+  res.status(404).json({ message: "Can't find route" });
 });
 
 // Error handling middleware
@@ -141,7 +142,7 @@ app.use((err, req, res, next) => {
 
   // CSRF error
   if (err.code === "EBADCSRFTOKEN") {
-    return res.status(403).json({ message: "CSRF token không hợp lệ" });
+    return res.status(403).json({ message: "CSRF token invalid" });
   }
 
   // Validation error
@@ -151,7 +152,7 @@ app.use((err, req, res, next) => {
 
   // Default error
   res.status(err.status || 500).json({
-    message: err.message || "Lỗi server",
+    message: err.message || "Server Error",
     ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 });

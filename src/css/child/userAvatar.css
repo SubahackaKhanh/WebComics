@@ -90,6 +90,7 @@ hr {
    overflow: hidden;
    height: var(--popup-main-h);
    z-index: 10;
+   pointer-events: none;
 }
 
 .popup:focus .popup-main {

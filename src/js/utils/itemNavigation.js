@@ -9,6 +9,8 @@ export function slugify(input = ''){
 
 export function getPreferredIdentifier(item){
   // Prefer backend-ready identifiers when present
+  // mal_id is the primary identifier for Jikan API
+  if (item?.mal_id) return String(item.mal_id)
   if (item?.id) return String(item.id)
   if (item?.slug) return String(item.slug)
   return slugify(item?.name || 'unknown')

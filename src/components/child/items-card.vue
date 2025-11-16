@@ -1,11 +1,11 @@
 <template>
-  <div class="items-card" v-if="item">
+  <div class="items-card" v-if="item && item.mal_id">
     <div class="item-pic">
-      <img :src="item.image" :alt="item.name" />
+      <img :src="item.image || ''" :alt="item.name || 'Manga'" />
     </div>
     <div class="item-name" @click="handleClick">
-      {{ item.name }}
-      <div class="item-status" :class="item.status?.toLowerCase()">
+      {{ item.name || 'Unknown' }}
+      <div class="item-status" v-if="item.status" :class="item.status?.toLowerCase()">
         {{ item.status }}
       </div>
     </div>

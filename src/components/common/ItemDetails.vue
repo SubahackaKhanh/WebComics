@@ -21,12 +21,18 @@
 
     onMounted(async () => {
         const id = route.params.idOrSlug
-        if (id) {
-            try {
-                manga.value = await getMangaDetail(id)
-            } catch (err){
-                console.error("Error fetching manga details: ", err);
-            } 
+        if (!id) {
+            console.error("No idOrSlug found in route params")
+            return
+        }
+        
+        try {
+            const abortController = new AbortController()
+            manga.value = await getMangaDetail(id, abortController.signal)
+        } catch (err) {
+            if (err?.name !== 'AbortError') {
+                console.error("Error fetching manga details: ", err)
+            }
         }
     })
 

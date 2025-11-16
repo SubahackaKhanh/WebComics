@@ -22,11 +22,8 @@ async function fetchWithRetry(url, config = {}, retries = 3, delay = 1000) {
         throw new Error('Invalid API response: No data');
       }
 
-      // Fallback nếu data.data không phải array
-      if (!Array.isArray(response.data.data)) {
-        console.warn('response.data.data is not array:', response.data.data);
-        response.data.data = []; // Trả mảng rỗng thay vì crash
-      }
+      // Note: response.data.data có thể là array (list endpoints) hoặc object (detail endpoints)
+      // Không force convert thành array vì sẽ làm hỏng detail responses
 
       return response;
     } catch (err) {

@@ -23,30 +23,71 @@
 import itemsCard from '../child/items-card.vue'
 import { useScroll } from '@/js/composables/use_Scroll_Horizontal_item'
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
-import { getNewManga } from '@/js/services/api/mangaApi'
-
-const { scrollContainer, scrollLeft, scrollRight} = useScroll()
 
 const props = defineProps({
-  title: { type: String, required: true },
+  title: { type: String, required: true},
   fetchFunction: { type: Function, required: true }
 })
 
 const items = ref([])
+const page = ref(1)
+const limit = 25
+const loading = ref(false)
+const hasNextPage = ref(true)
 
-let abortController
-onMounted(async () => {
-  abortController = new AbortController()
+let abortController = null 
+
+async function loadMore() {
+  if (loading.value || !hasNextPage.value) return;
+  loading.value = true;
+  abortController = new AbortController();
+
   try {
-    items.value = await props.fetchFunction(undefined, abortController.signal)
+    const result = await props.fetchFunction(
+      page.value,
+      limit,
+      abortController.signal
+    );
+
+    // Bảo vệ mạnh: kiểm tra result trước khi dùng
+    if (!result || typeof result !== 'object') {
+      console.error('Invalid fetch result:', result);
+      hasNextPage.value = false;
+      return;
+    }
+
+    const newItems = Array.isArray(result.items) ? result.items : [];
+    items.value.push(...newItems);
+
+    hasNextPage.value = Boolean(result.pagination?.hasNextPage);
+    if (newItems.length > 0) {
+      page.value++;  // Chỉ tăng page nếu có data mới
+    } else {
+      hasNextPage.value = false;  // Dừng nếu rỗng
+    }
+
   } catch (err) {
     if (err?.name !== 'AbortError') {
-      console.error('Failed to load data:', err)
+      console.error('Failed:', err);
+      hasNextPage.value = false;  // Dừng load thêm khi lỗi
     }
+  } finally {
+    loading.value = false;
+    abortController = null;  // Reset
   }
+}
+const { scrollContainer, scrollLeft, scrollRight } = 
+  useScroll(() => {
+    if (hasNextPage.value && !loading.value) {
+      loadMore()
+    }
+  })
+
+onMounted(async () =>{
+  await loadMore()
 })
 
-onBeforeUnmount(() => {
+onBeforeUnmount(() =>{
   if (abortController) abortController.abort()
 })
 

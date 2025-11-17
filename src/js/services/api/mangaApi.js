@@ -1,4 +1,3 @@
-// src/js/services/api/mangaApi.js
 import { api } from '@/js/services/client';
 
 // Hàm hỗ trợ retry khi gặp lỗi 429
@@ -21,9 +20,6 @@ async function fetchWithRetry(url, config = {}, retries = 3, delay = 1000) {
         console.warn('No response.data:', response);
         throw new Error('Invalid API response: No data');
       }
-
-      // Note: response.data.data có thể là array (list endpoints) hoặc object (detail endpoints)
-      // Không force convert thành array vì sẽ làm hỏng detail responses
 
       return response;
     } catch (err) {
@@ -61,7 +57,7 @@ export async function getNewManga(page = 1, limit = 15, signal) {
         order_by: 'start_date', 
         sort: 'desc', 
         limit, 
-        page  // ← Thêm page nếu chưa có (Jikan yêu cầu cho pagination)
+        page  
       },
       signal
     });
@@ -80,7 +76,7 @@ export async function getNewManga(page = 1, limit = 15, signal) {
       name: item.title,
       image: item.images?.jpg?.image_url || '',
       status: item.status
-    })).filter(item => item.mal_id); // Lọc item hợp lệ
+    })).filter(item => item.mal_id); 
 
     return {
       items,
@@ -91,9 +87,9 @@ export async function getNewManga(page = 1, limit = 15, signal) {
   } catch (err) {
     console.error('Failed to fetch new manga: ', err);
     if (err.name === 'AbortError') {
-      throw err; // Để component xử lý
+      throw err; 
     }
-    return {  // Fallback: không throw, trả rỗng để UI không crash
+    return {  
       items: [],
       pagination: { hasNextPage: false }
     };

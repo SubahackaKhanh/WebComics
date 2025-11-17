@@ -61,15 +61,15 @@ async function loadMore() {
 
     hasNextPage.value = Boolean(result.pagination?.hasNextPage);
     if (newItems.length > 0) {
-      page.value++;  // Chỉ tăng page nếu có data mới
+      page.value++; 
     } else {
-      hasNextPage.value = false;  // Dừng nếu rỗng
+      hasNextPage.value = false;  
     }
 
   } catch (err) {
     if (err?.name !== 'AbortError') {
       console.error('Failed:', err);
-      hasNextPage.value = false;  // Dừng load thêm khi lỗi
+      hasNextPage.value = false;  
     }
   } finally {
     loading.value = false;

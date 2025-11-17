@@ -3,6 +3,7 @@ import './assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
+import VueLazyLoad from 'vue3-lazyload';
 import { createPinia } from 'pinia';
 import { useLoadingStore } from '@/js/composables/useLoadingStore';
 import { useAuthStore } from '@/js/stores/authStore';
@@ -17,6 +18,7 @@ const startApp = async() =>{
 
   app.use(pinia);
   app.use(router);
+  app.use(VueLazyLoad);
 
   const loading = useLoadingStore(pinia);
   const auth = useAuthStore(pinia);

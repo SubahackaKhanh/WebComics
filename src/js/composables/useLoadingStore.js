@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue'
 
 export const useLoadingStore = defineStore('loading', () => {
   const global = ref(false)
-  const items = reactive({}) // lưu nhiều loading cùng lúc
+  const items = reactive({}) 
 
   const show = (key = 'global') => {
     if (key === 'global') global.value = true

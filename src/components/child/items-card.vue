@@ -1,7 +1,7 @@
 <template>
   <div class="items-card" v-if="item && item.mal_id">
     <div class="item-pic">
-      <img :src="item.image || ''" :alt="item.name || 'Manga'" />
+      <img v-lazy="item.image || ''" :alt="item.name || 'Manga'" />
     </div>
     <div class="item-name" @click="handleClick">
       {{ item.name || 'Unknown' }}

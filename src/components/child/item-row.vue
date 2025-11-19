@@ -4,7 +4,7 @@
       {{ rank }}
     </div>
     <div class="item-pic">
-      <img :src="item.image" :alt="item.name" />
+      <img v-lazy="item.image" :alt="item.name" />
     </div>
     <div class="item-name">
       {{ item.name }}
